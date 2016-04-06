@@ -41,3 +41,6 @@
 
 # Libreoffice locks
 .~lock*
+
+# Unix-styled backup files
+*~
