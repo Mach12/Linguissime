@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <h1 class="h6 font-weight-bold">Badges</h1>
+                <hr>
+            </div>
+
+            {% for achievement in achievement %}
+
+            <div class="col-md-3">
+                <div class="card text-xs-center">
+                    <div class="card-block">
+                        <h6 class="card-subtitle m-b-5 font-weight-bold">{{ achievement.badge.name }}</h6>
+                        <p class="card-text" style="color: green;">{{ achievement.date|date("m/d/Y") }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+
+        </div>
+    </div>
+
+
+<footer class="footer">
+    <div class="container">
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="">Centre d'aide</a></li>
+            <li class="list-inline-item"><a href="">A propos</a></li>
+            <li class="list-inline-item"><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li class="list-inline-item"><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li class="list-inline-item"><a href=""><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+        </ul>
+    </div>
+</footer>
+{% endblock %}

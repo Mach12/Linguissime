@@ -1,0 +1,28 @@
+security:
+    encoders:
+        AppBundle\Entity\User: bcrypt
+
+    providers:
+        main:
+            entity:
+                class:    AppBundle\Entity\User
+                property: email
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: ~
+            form_login:
+                login_path: login
+                check_path: login
+                default_target_path: dashboard
+            logout:
+                path:   /logout
+                target: /login
+
+    access_control:
+        - { path: ^/user, roles: ROLE_USER }
+

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="text-xs-center">
+            <h1  style="font-size:25px">Choissisez la bonne solution</h1>
+            <img src="https://www.rentiles.fr/client/plugins/tinymceplus/plugins/imagemanager/files/location-voiture.png" alt="..." class="img-thumbnail center-bloc" style="height:250px; width:250px; margin-top:15px;">
+            <div class="tool-box center-block"></div>
+
+            	<div id='cours' class='obviousbox'>
+		<div class='obviousbox' v-for='exercise in exerciseList' v-if="currentExerciseID == $index">
+			Exercice <[$index + 1]>
+			<div class='obviousbox' v-for='question in exerciseDataArray' v-if="currentExerciseDataID == $index">
+				Question <[$index + 1]>
+				<div class="discretebox">
+					<find-translation-exercise :question="question" v-if="exerciseType==1"></find-translation-exercise>
+					<fill-blanks-exercise :question="question" v-if="exerciseType==2"></fill-blanks-exercise>
+				</div>
+			</div>
+		</div>
+		<div class="obviousbox" v-if="isFinished">
+			Done! Congratz!<br/>
+			Score: <[score]>
+		</div>
+	</div>
+
+	<template id="fill-blanks-template">
+		<template v-for='n in question.text.length' style='white-space: pre-wrap;'>
+			<[question.text[n]]>
+			<input v-if='question.blanks[n] !== undefined' v-model='fillBlanksInput[n]' />
+		</template>
+		<br/>
+		<button @click='testAnswer'>OK</button>
+	</template>
+
+	<template id="find-translation-template">
+		 <p style="font-size: 16px; font-weight: bold; margin-top:10px">"<[question.text]>"</p>
+		<div class='obviousbox tool tool-exercise' v-for='item in shuffledTranslations' @click='testAnswer(item)'>
+			<[item]>
+		</div>
+	</template>
+
+        <!--      <p style="font-size: 16px; font-weight: bold; margin-top:10px">Mon nom est Antoine</p>
+
+            <button class="tool tool-exercise">My</button>
+            <button class="tool tool-exercise">Is</button>
+            <button class="tool tool-exercise">Name</button>
+            <button class="tool tool-exercise">Antoine</button>
+          <button class="btn btn-default btn-sm center-block" style="display:block; margin-top:30px;">Suivant</button> -->
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/vue/latest/vue.js"></script>
+<script src="{{ asset('js/daScript.vue') }}"></script>
+
+{% endblock %}
+
+

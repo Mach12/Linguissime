@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-3 col-lg-offset-1 col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item active">Information personelles</li>
+                    <li class="list-group-item"><a href="{{ path('change_password') }}">Mot de passe</a></li>
+                    <li class="list-group-item"><a href="{{ path('stats') }}">Statistiques</a></li>
+                    <li class="list-group-item"><a href="{{ path('badge') }}">Badges</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-6 col-md-8">
+
+                {% for flash_message in app.session.flashBag.get('notice') %}
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                
+                <div class="card">
+                    <div class="card-header">
+                        Informations personnelles
+                    </div>
+                    <div class="card-block">
+                        {{ form_start(form) }}
+                            <fieldset class="form-group row">
+                                <label for="username" class="col-md-2 form-control-label">Prénom</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </fieldset>
+
+                           <fieldset class="form-group row">
+                                <label for="name" class="col-md-2 form-control-label">Nom</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label class="col-md-2 form-control-label">Sexe</label>
+                                <div class="col-md-3">
+                                    {{ form_row(form.sexe, {'attr': {'class': 'form-control m-t-5'}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label for="email" class="col-md-2 form-control-label">E-mail</label>
+                                <div class="col-md-10">
+                                	{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                                    <p class="text-gray-light m-t-10 s-14" >Nous ne partagerons pas votre adresse e-mail privée avec d'autres utilisateurs.</p>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label class="col-md-2 form-control-label">Lieu de résidence</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.residence, {'attr': {'class': 'form-control','placeholder': 'Par exemple Paris, France / Brooklyn, NY'}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label for="description" class="col-md-2 form-control-label">Description</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.description, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group m-b-0">
+                                <button type="submit" class="btn btn-sm pull-xs-right btn-primary">Enregistrer les modifications</button>
+                            </fieldset>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <ul class="list-inline">
+            <li class="list-inline-item"><a href="">Centre d'aide</a></li>
+            <li class="list-inline-item"><a href="">A propos</a></li>
+            <li class="list-inline-item"><a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li class="list-inline-item"><a href=""><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li class="list-inline-item"><a href=""><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+        </ul>
+    </div>
+</footer>
+
+{% endblock %}
+
