@@ -230,32 +230,40 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact/api", name="contact")
      */
     public function contactAction(Request $request)
     {   
+        if (!$request->isXmlHttpRequest()) {
+            throw new HttpNotFoundException("Page not found");
+        }
+        
         $contact = new Contact();
 
         $form = $this->createForm(ContactType::class, $contact);
-
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if (!$form->isValid()) {
 
-            $message = \Swift_Message::newInstance()
-                ->setContentType('text/html')
-                ->setSubject($contact->getSubject() . " de" . $contact->getEmail())
-                ->setFrom("agrandiere@intechinfo.fr")
-                ->setTo("agrandiere@intechinfo.fr")
-                ->setBody($contact->getContent());
+            $errors = array();
+            
+            foreach ($form->getErrors() as $error) {
+                $errors[$form->getName()][] = $error->getMessage();
+
+            }
+
+            return new JsonResponse($errors, 400);
+        }
+
+        $message = \Swift_Message::newInstance()
+            ->setContentType('text/html')
+            ->setSubject($contact->getSubject() . " de" . $contact->getEmail())
+            ->setFrom("xx")
+            ->setTo("xx")
+            ->setBody($contact->getContent());
 
             $this->get('mailer')->send($message);
 
-            return $this->redirectToRoute('contact');
-        }
-
-        return $this->render('::default/contact.html.twig', array(
-            'form' => $form->createView(),
-        ));
+        return new JsonResponse("votre message a bien été envoyé");
     }
 }

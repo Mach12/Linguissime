@@ -13,7 +13,7 @@
 
 ----
 
-ajax => /url data
+ajax => /url api
 
-ex: /user/badge/data
-    /user/stats/data
+ex: /user/badge/api
+    /user/stats/api
