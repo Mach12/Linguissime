@@ -24,7 +24,6 @@
 
 <script>
 import Hello from './components/Hello'
-require('./router')
 
 export default {
   components: {
