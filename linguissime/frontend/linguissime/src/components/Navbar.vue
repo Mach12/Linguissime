@@ -41,5 +41,4 @@
 </template>
 <script>
 </script>
-<style src="stylesheets/bootstrap.css"></style>
-    
+<style src=bootstrap/dist/css/bootstrap.css></style>
