@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
+require('bootstrap-loader')
+
 import App from './App'
 import Hello from './components/Hello'
 import Empty from './components/Empty'

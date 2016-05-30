@@ -9,8 +9,8 @@
   
         {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
         <ul class="nav navbar-nav pull-xs-right">
-          <li class="nav-item"><a href="{{ path('register') }}" class="nav-link">Inscription</a></li>
-          <li class="nav-item"><a href="{{ path('login') }}" class="nav-link">Connexion</a></li>
+          <li class="nav-item"><a v-link="register" class="nav-link">Inscription</a></li>
+          <li class="nav-item"><a v-link="login" class="nav-link">Connexion</a></li>
         </ul>
         {% else %}
         <ul class="nav navbar-nav pull-xs-right">
@@ -21,9 +21,9 @@
                 Antoine
               </a>
               <div class="dropdown-menu" aria-labelledby="Preview">
-                <a class="dropdown-item"  href="{{ path('change_account') }}"> <i class="fa fa-cog" style="padding-right: 16px;" aria-hidden="true"></i>Paramètres</a>
-                <a class="dropdown-item"  href="#"> <i class="fa fa-tasks" aria-hidden="true" style="padding-right: 14px;"></i>Créer un exercice</a>
-                <a class="dropdown-item"  href="{{ path('logout') }}"> <i class="fa fa-power-off" style="padding-right: 16px;" aria-hidden="true"></i>Déconnexion</a>
+                <a class="dropdown-item"  v-link="change-login"> <i class="fa fa-cog" style="padding-right: 16px;" aria-hidden="true"></i>Paramètres</a>
+                <a class="dropdown-item"  v-link="#"> <i class="fa fa-tasks" aria-hidden="true" style="padding-right: 14px;"></i>Créer un exercice</a>
+                <a class="dropdown-item"  v-link="logout"> <i class="fa fa-power-off" style="padding-right: 16px;" aria-hidden="true"></i>Déconnexion</a>
               </div>
             </li>
         </ul>
@@ -41,4 +41,3 @@
 </template>
 <script>
 </script>
-<style src=bootstrap/dist/css/bootstrap.css></style>
