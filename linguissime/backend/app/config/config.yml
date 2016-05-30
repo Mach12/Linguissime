@@ -57,3 +57,13 @@ swiftmailer:
     encryption: tls # TLS encryption is required
     username:   AKIAILYIPUHCCULMX32Q
     password:   Arff4EC4PGHmRtk9ecr0SPDaL5MCumctuXGnrYUMX2Up
+
+
+aws:
+    version: latest
+    region: eu-west-1
+    credentials:
+        key: AKIAIEG2D5PC2DBJ5FEQ
+        secret: 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
+    S3:
+        version: latest

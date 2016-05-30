@@ -17,6 +17,8 @@ use AppBundle\Model\Contact;
 use AppBundle\Model\Form\ContactType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 class DefaultController extends Controller
 {
@@ -111,20 +113,32 @@ class DefaultController extends Controller
      */
     public function ChangeImageAction(Request $request)
     {
-        $user =  $this->get('security.token_storage')->getToken()->getUser();
-       
+        $user = new User();
+
         $form = $this->createForm(ChangeImageType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isValid()) {
+
+            $image = $user->getImage();
+            $image_path = md5(uniqid()).'.'.$file->guessExtension();
+
+            $client = $this->get('aws.s3');
+
+            $result = $client->putObject([
+                'Bucket' => 'img-pi',
+                'Key'    =>  'e',
+                'body' =>  'e.txt'
+            ]);  
+
+            $user->setPath($image_path);
 
             $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('success');
+            return new JsonResponse("work");
         }
-
-        return $this->render('default/settings/image.html.twig', array('form' => $form->createView()));
     }
 
 
@@ -174,28 +188,26 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/contact/api", name="contact", condition="request.isXmlHttpRequest()")
+     * @Route("contact", name="contact")
      */
     public function contactAction(Request $request)
-    {   
+    {       
         $contact = new Contact();
+        $contact->setEmail('test@yahoo.com');
+        $contact->setContent('testyahoo');
+        $contact->setSubject('testyahoo');
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
-        if (!$form->isValid()) {
+        var_dump($contact);
 
-            $errors = array();
-            
-            foreach ($form->getErrors() as $error) {
-                $errors[$form->getName()][] = $error->getMessage();
-
-            }
-
-            return new JsonResponse($errors, 400);
+        if (!$form->isValid()) 
+        {
+            return new JsonResponse("error", 400);
         }
 
-            $message = \Swift_Message::newInstance()
+        $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject($contact->getSubject() . " de" . $contact->getEmail())
             ->setFrom("xx")
@@ -208,24 +220,22 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/register/api", name="register", condition="request.isXmlHttpRequest()")
+     * @Route("register", name="register")
      */
     public function registerAction(Request $request)
     { 
         $user = new User();
+         $user->setEmail('tezerzerzerzerrezst@yahoo.com');
+        $user->setName('zrezerzerzerzer');
+        $user->setUserName('zrezerzerzerzer');
+        $user->setPlainPassword('testyahoozerzerezrzer');
 
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
 
         if (!$form->isValid()) 
         {
-            $errors = array();
-        
-            foreach ($form->getErrors() as $error) {
-                $errors[$form->getName()][] = $error->getMessage();
-            }
-
-            return new JsonResponse($errors, 400);
+            return new JsonResponse("error", 400);
         }
 
         $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());

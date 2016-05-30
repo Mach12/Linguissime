@@ -5,15 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @UniqueEntity(fields="email", message="Email already taken", groups={"register", "change_account"})
- * @UniqueEntity(fields="username", message="Username already taken", groups={"register", "change_account"})
  */
 class User implements UserInterface
 {   
@@ -27,14 +24,8 @@ class User implements UserInterface
     private $id;
 
     /**
-    * @ORM\OneToOne(targetEntity="Image", cascade={"persist"})
-    */
-    private $image;
-
-    /**
      * @var string
      *
-     * @Assert\NotNull(groups={"change_account"})
      * @Assert\Length(min=4, max=20, groups={"change_account", "register"})
      * @ORM\Column(name="username", type="string", length=255)
      */
@@ -43,7 +34,6 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @Assert\Length(min=4, max=20, groups={"change_account"})
      * @ORM\Column(name="sexe", type="string", length=20, nullable=true)
      */
     private $sexe;
@@ -51,7 +41,6 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @Assert\Length(min=4, max=20, groups={"change_account"})
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
@@ -59,7 +48,6 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @Assert\Length(min=4, max=20, groups={"change_account"})
      * @ORM\Column(name="residence", type="string", length=255, nullable=true)
      */
     private $residence;
@@ -67,7 +55,6 @@ class User implements UserInterface
      /**
      * @var string
      *
-     * @Assert\Length(min=4, max=20, groups={"change_account"})
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
@@ -75,14 +62,12 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @Assert\NotNull(groups={"change_account"})
-     * @Assert\Email(checkMX = true, groups={"change_account", "register"})
+     * @Assert\NotNull(groups={"register"})
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;
 
     /**
-     * @var string
      * @ORM\Column(name="password", type="string", length=255)
      */
     private $password;
@@ -92,11 +77,47 @@ class User implements UserInterface
      */
     private $points;
 
-
     /**
-    * @Assert\NotNull()
+    * @Assert\NotNull(groups={"register"})
     */
     private $plainpassword;
+
+    /**
+     *
+     * @Assert\NotBlank(groups={"change_image"})
+     * @Assert\File(groups={"change_image"})
+     */
+    private $image;
+
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     */
+    private $path;
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath($path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
 
     public function getRoles() 
     {
@@ -107,10 +128,10 @@ class User implements UserInterface
 
     public function eraseCredentials() {}
 
-    function __construct() {
+    function __construct() 
+    {
         $this->points = 0;
     }
-
 
     /**
      * Get id
@@ -216,30 +237,6 @@ class User implements UserInterface
         $this->plainpassword = $plainpassword;
 
         return $this;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \AppBundle\Entity\Image $image
-     *
-     * @return User
-     */
-    public function setImage(\AppBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \AppBundle\Entity\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 
     /**
