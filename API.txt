@@ -1,0 +1,24 @@
+api/login (POST)
+api/register (POST)
+api/contact (POST)
+api/search (POST)
+api/exercise (GET)
+
+api/user/dashboard ( tableau bord, GET)
+api/user/badge (GET)
+api/user/stats ( stats des exercices fait, GET)
+api/user/settings/password (change password, PUT)
+api/user/settings/account( change profile, PUT)
+api/user/settings/image ( change image, PUT)
+-------
+ajax => api/{url}
+
+ex: api/login
+    api/contact
+
+- Créer (POST)
+- Afficher (GET)
+- Mettre à jour (PUT)
+- Supprimer (DELETE)
+-------
+Format de données : JSON

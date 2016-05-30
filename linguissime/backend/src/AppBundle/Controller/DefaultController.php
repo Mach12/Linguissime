@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use AppBundle\Entity\User;
 use AppBundle\Form\RegisterType;
 use AppBundle\Form\ChangeImageType;
@@ -16,34 +15,13 @@ use AppBundle\Entity\Badge;
 use AppBundle\Entity\BadgeManager;
 use AppBundle\Model\Contact;
 use AppBundle\Model\Form\ContactType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/register", name="register")
-     */
-    public function registerAction(Request $request)
-    { 
-        $user = new User();
-
-        $form = $this->createForm(RegisterType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isValid() && $form->isSubmitted()) {
-
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return $this->redirectToRoute('login');
-        }
-
-        return $this->render('default/register.html.twig',array('form' => $form->createView()));
-    }
-
     /**
      * @Route("/login", name="login")
      */
@@ -55,14 +33,6 @@ class DefaultController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('default/login.html.twig', array('last_username' => $lastUsername,'error' => $error));
-    }
-
-    /**
-     * @Route("/logout", name="logout")
-     */
-    public function logoutAction()
-    {
-      throw new NotFoundHttpException();
     }
 
     /**
@@ -87,22 +57,6 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/user/stats", name="stats")
-     */
-    public function StatsAction()
-    {
-        return $this->render('default/stats.html.twig');
-    }
-
-    /**
-     * @Route("/search", name="search")
-     */
-    public function SearchAction()
-    {
-        return $this->render('default/search.html.twig');
-    }
-
-    /**
      * @Route("/user/settings/password", name="change_password")
      */
     public function ChangePasswordAction(Request $request)
@@ -121,13 +75,11 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash(
-            'notice',
-            'Vos changements on été enregistré');
-
+            return new JsonResponse("work");
         }
 
-        return $this->render('default/settings/password.html.twig', array('form' => $form->createView()));
+        return new JsonResponse("error", 400);
+
     }
 
     /**
@@ -145,13 +97,10 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash(
-            'notice',
-            'Vos changements on été enregistré');
-
+            return new JsonResponse("work");
         }
 
-        return $this->render('default/settings/account.html.twig', array('form' => $form->createView()));
+        return new JsonResponse("error", 400);
     }
 
     /**
@@ -159,20 +108,34 @@ class DefaultController extends Controller
      */
     public function ChangeImageAction(Request $request)
     {
-        $user =  $this->get('security.token_storage')->getToken()->getUser();
-       
+        $user = new User();
+
         $form = $this->createForm(ChangeImageType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isValid()) {
+
+            $image = $user->getImage();
+            $image_path = md5(uniqid()).'.'.$file->guessExtension();
+
+            $client = $this->get('aws.s3');
+
+            $result = $client->putObject([
+                'Bucket' => 'img-pi',
+                'Key'    =>  'e',
+                'body' =>  'e.txt'
+            ]);  
+
+            $user->setPath($image_path);
 
             $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('success');
+            return new JsonResponse("work");
         }
 
-        return $this->render('default/settings/image.html.twig', array('form' => $form->createView()));
+        return new JsonResponse("error", 400);
     }
 
 
@@ -222,48 +185,72 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/exercise", name="exercise")
-     */
-    public function exerciseAction()
-    {   
-        return $this->render('default/exercise.html.twig');
-    }
-
-    /**
-     * @Route("/contact/api", name="contact")
+     * @Route("contact", name="contact")
      */
     public function contactAction(Request $request)
-    {   
-        if (!$request->isXmlHttpRequest()) {
-            throw new HttpNotFoundException("Page not found");
-        }
-        
+    {       
         $contact = new Contact();
+        $contact->setEmail('test@yahoo.com');
+        $contact->setContent('testyahoo');
+        $contact->setSubject('testyahoo');
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
-        if (!$form->isValid()) {
-
-            $errors = array();
-            
-            foreach ($form->getErrors() as $error) {
-                $errors[$form->getName()][] = $error->getMessage();
-
-            }
-
-            return new JsonResponse($errors, 400);
-        }
-
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject($contact->getSubject() . " de" . $contact->getEmail())
-            ->setFrom("xx")
-            ->setTo("xx")
+            ->setFrom("agrandiere@intechinfo.fr")
+            ->setTo("agrandiere@intechinfo.fr")
             ->setBody($contact->getContent());
 
-            $this->get('mailer')->send($message);
+            $this->get('mailer')->send($message);  
 
         return new JsonResponse("votre message a bien été envoyé");
     }
+
+    /**
+     * @Route("register", name="register")
+     */
+    public function registerAction(Request $request)
+    { 
+        $user = new User();
+        $user->setEmail('tezerzerzerzerrezxst@yahoo.com');
+        $user->setName('zrezerzerzexrzer');
+        $user->setUserName('zrezerzxerzerzer');
+        $user->setPlainPassword('xxxxzerzerezrzer');
+
+        $form = $this->createForm(RegisterType::class, $user);
+        $form->handleRequest($request);
+ 
+        return new JsonResponse("error", 400);
+
+        $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+        $user->setPassword($password);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        return new JsonResponse("Votre compte a été crée avec succès");
+    }
+
+    /**
+     * @Route("invitation", name="invitation")
+     */
+    public function invitationAction(Request $request)
+    {       
+        $message = \Swift_Message::newInstance()
+            ->setContentType('text/html')
+            ->setSubject("Rejoindre Linguissime")
+            ->setFrom("agrandiere@intechinfo.fr")
+            ->setTo("agrandiere@intechinfo.fr")
+            ->setBody("Bonjour, Vous avez reçu une invitation de la part d'un de vos amis pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
+
+            $this->get('mailer')->send($message);  
+
+        return new JsonResponse("votre message a bien été envoyé");
+    }
+
+
 }
