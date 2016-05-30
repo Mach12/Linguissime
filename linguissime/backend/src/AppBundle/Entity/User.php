@@ -24,45 +24,33 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @var string
-     *
-     * @Assert\Length(min=4, max=20, groups={"change_account", "register"})
+     * @Assert\NotBlank(groups={"register"})
      * @ORM\Column(name="username", type="string", length=255)
      */
     private $username;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="sexe", type="string", length=20, nullable=true)
      */
     private $sexe;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
-     * @var string
-     *
      * @ORM\Column(name="residence", type="string", length=255, nullable=true)
      */
     private $residence;
 
      /**
-     * @var string
-     *
      * @ORM\Column(name="description", type="string", length=255, nullable=true)
      */
     private $description;
 
     /**
-     * @var string
-     *
-     * @Assert\NotNull(groups={"register"})
+     * @Assert\NotBlank(groups={"register"})
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;
@@ -78,7 +66,7 @@ class User implements UserInterface
     private $points;
 
     /**
-    * @Assert\NotNull(groups={"register"})
+    * @Assert\NotBlank(groups={"register"})
     */
     private $plainpassword;
 
@@ -102,7 +90,7 @@ class User implements UserInterface
     }
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      */
     private $path;

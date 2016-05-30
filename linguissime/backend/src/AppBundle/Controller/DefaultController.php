@@ -75,13 +75,11 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash(
-            'notice',
-            'Vos changements on été enregistré');
-
+            return new JsonResponse("work");
         }
 
-        return $this->render('default/settings/password.html.twig', array('form' => $form->createView()));
+        return new JsonResponse("error", 400);
+
     }
 
     /**
@@ -99,13 +97,10 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            $this->addFlash(
-            'notice',
-            'Vos changements on été enregistré');
-
+            return new JsonResponse("work");
         }
 
-        return $this->render('default/settings/account.html.twig', array('form' => $form->createView()));
+        return new JsonResponse("error", 400);
     }
 
     /**
@@ -139,6 +134,8 @@ class DefaultController extends Controller
 
             return new JsonResponse("work");
         }
+
+        return new JsonResponse("error", 400);
     }
 
 
@@ -200,18 +197,11 @@ class DefaultController extends Controller
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
-        var_dump($contact);
-
-        if (!$form->isValid()) 
-        {
-            return new JsonResponse("error", 400);
-        }
-
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject($contact->getSubject() . " de" . $contact->getEmail())
-            ->setFrom("xx")
-            ->setTo("xx")
+            ->setFrom("agrandiere@intechinfo.fr")
+            ->setTo("agrandiere@intechinfo.fr")
             ->setBody($contact->getContent());
 
             $this->get('mailer')->send($message);  
@@ -225,18 +215,15 @@ class DefaultController extends Controller
     public function registerAction(Request $request)
     { 
         $user = new User();
-         $user->setEmail('tezerzerzerzerrezst@yahoo.com');
-        $user->setName('zrezerzerzerzer');
-        $user->setUserName('zrezerzerzerzer');
-        $user->setPlainPassword('testyahoozerzerezrzer');
+        $user->setEmail('tezerzerzerzerrezxst@yahoo.com');
+        $user->setName('zrezerzerzexrzer');
+        $user->setUserName('zrezerzxerzerzer');
+        $user->setPlainPassword('xxxxzerzerezrzer');
 
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
-
-        if (!$form->isValid()) 
-        {
-            return new JsonResponse("error", 400);
-        }
+ 
+        return new JsonResponse("error", 400);
 
         $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
         $user->setPassword($password);
@@ -247,4 +234,23 @@ class DefaultController extends Controller
 
         return new JsonResponse("Votre compte a été crée avec succès");
     }
+
+    /**
+     * @Route("invitation", name="invitation")
+     */
+    public function invitationAction(Request $request)
+    {       
+        $message = \Swift_Message::newInstance()
+            ->setContentType('text/html')
+            ->setSubject("Rejoindre Linguissime")
+            ->setFrom("agrandiere@intechinfo.fr")
+            ->setTo("agrandiere@intechinfo.fr")
+            ->setBody("Bonjour, Vous avez reçu une invitation de la part d'un de vos amis pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
+
+            $this->get('mailer')->send($message);  
+
+        return new JsonResponse("votre message a bien été envoyé");
+    }
+
+
 }

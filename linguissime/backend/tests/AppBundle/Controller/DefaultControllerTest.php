@@ -15,7 +15,6 @@ class DefaultControllerTest extends WebTestCase
         $client->request('POST', '/register/api');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
-
     }
 
     public function testCreateSellerAction()
