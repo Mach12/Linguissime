@@ -24,7 +24,6 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class DefaultController extends Controller
 {
     /**
@@ -72,9 +71,9 @@ class DefaultController extends Controller
     public function BadgesAction()
     {   
         $repository = $this
-        ->getDoctrine()
-  ->getManager()
-  ->getRepository('AppBundle:User');
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User');
 
         $user= $repository->find(1);
 
@@ -283,15 +282,14 @@ $user= $repository->find(1);
     public function registerAction(Request $request)
     {   
         $user = new User();
-        $user->setEmail('tezerzerzerzerrezxst@yahoo.com');
-        $user->setName('zrezerzerzexrzer');
-        $user->setUserName('zrezerzxerzerzer');
-        $user->setPlainPassword('xxxxzerzerezrzer');
+        $user->setEmail('test@yahoo.com');
+        $user->setName('test');
+        $user->setUserName('test');
+        $user->setPlainPassword('testtest');
 
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
 
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
@@ -301,7 +299,7 @@ $user= $repository->find(1);
             $em->flush();
 
             return new JsonResponse("Votre compte a été crée avec succès");
-        }
+        
 
         return new JsonResponse("not work");
     }
