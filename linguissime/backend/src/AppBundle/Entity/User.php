@@ -24,6 +24,12 @@ class User implements UserInterface
     private $id;
 
     /**
+    * @ORM\OneToMany(targetEntity="ExerciceDone", mappedBy="user", cascade={"persist"})
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $exercicedone;
+
+    /**
      * @Assert\NotBlank(groups={"register"})
      * @ORM\Column(name="username", type="string", length=255)
      */
@@ -345,5 +351,39 @@ class User implements UserInterface
     public function getPoints()
     {
         return $this->points;
+    }
+
+    /**
+     * Add exercicedone
+     *
+     * @param \AppBundle\Entity\ExerciceDone $exercicedone
+     *
+     * @return User
+     */
+    public function addExercicedone(\AppBundle\Entity\ExerciceDone $exercicedone)
+    {
+        $this->exercicedone[] = $exercicedone;
+
+        return $this;
+    }
+
+    /**
+     * Remove exercicedone
+     *
+     * @param \AppBundle\Entity\ExerciceDone $exercicedone
+     */
+    public function removeExercicedone(\AppBundle\Entity\ExerciceDone $exercicedone)
+    {
+        $this->exercicedone->removeElement($exercicedone);
+    }
+
+    /**
+     * Get exercicedone
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getExercicedone()
+    {
+        return $this->exercicedone;
     }
 }

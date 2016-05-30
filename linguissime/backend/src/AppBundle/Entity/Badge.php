@@ -93,4 +93,3 @@ class Badge
         return $this->points;
     }
 }
-

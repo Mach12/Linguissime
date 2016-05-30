@@ -12,12 +12,17 @@ use AppBundle\Utils\Model\ChangePassword;
 use AppBundle\Utils\Form\ChangePasswordType;
 use AppBundle\Utils\Form\ChangeAccountType;
 use AppBundle\Entity\Badge;
+use AppBundle\Entity\ExerciceDone;
 use AppBundle\Entity\BadgeManager;
 use AppBundle\Model\Contact;
 use AppBundle\Model\Form\ContactType;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class DefaultController extends Controller
@@ -40,20 +45,54 @@ class DefaultController extends Controller
      */
     public function DashboardAction()
     {
-        return $this->render('default/dashboard.html.twig');
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User');
+
+        $user = $repository->find(1);
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes(array('image', 'roles', 'password', 'plainPassword','salt','id'));
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+          return $object;
+        });
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+        $data = $serializer->serialize($user, 'json');
+
+        return new Response($data);
     }
 
     /**
-     * @Route("/user/badge", name="badge")
+     * @Route("/user/badges", name="badges")
      */
-    public function BadgeAction()
+    public function BadgesAction()
     {   
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $repository = $this
+        ->getDoctrine()
+  ->getManager()
+  ->getRepository('AppBundle:User');
+
+        $user= $repository->find(1);
 
         $em = $this->getDoctrine()->getManager();
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
 
-        return $this->render('default/badge.html.twig', array('achievement' => $listBadgeAchivement));
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes(array('user', '__initializer__', '__isInitialized__', '__cloner__','timestamp','offset','timezone','longitude','latitude','id'));
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+          return $object;
+        });
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+        $data = $serializer->serialize($listBadgeAchivement, 'json');
+
+        return new Response($data);
     }
 
     /**
@@ -67,7 +106,7 @@ class DefaultController extends Controller
         $form = $this->createForm(ChangePasswordType::class, $password);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isValid()) {
 
             $newPassword = $this->get('security.password_encoder')->encodePassword($user, $password->getNewPassword());
             $user->setPassword($newPassword);
@@ -75,7 +114,7 @@ class DefaultController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return new JsonResponse("work");
+            return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
         }
 
         return new JsonResponse("error", 400);
@@ -138,13 +177,42 @@ class DefaultController extends Controller
         return new JsonResponse("error", 400);
     }
 
+    /**
+     * @Route("/settings/stats", name="update_stats")
+     */
+    public function UpdateStatsAction()
+    {
+         $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User');
+
+        $user = $repository->find(1);
+
+        $exercise = new ExerciceDone();
+        $exercise->setName("toto");
+        $exercise->setPoints(2);
+
+        $user->addExercicedone($exercise);
+        $exercise->setUser($user);
+
+         $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+    }
+
 
     /**
-     * @Route("/update_points", name="update_points")
+     * @Route("/settings/points", name="update_points")
      */
     public function UpdatePointsAction()
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $repository = $this
+  ->getDoctrine()
+  ->getManager()
+  ->getRepository('AppBundle:User');
+
+$user= $repository->find(1);
         $user->setPoints($user->getPoints() + 30);
 
         $em = $this->getDoctrine()->getManager();
@@ -213,7 +281,7 @@ class DefaultController extends Controller
      * @Route("register", name="register")
      */
     public function registerAction(Request $request)
-    { 
+    {   
         $user = new User();
         $user->setEmail('tezerzerzerzerrezxst@yahoo.com');
         $user->setName('zrezerzerzexrzer');
@@ -222,17 +290,20 @@ class DefaultController extends Controller
 
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
- 
-        return new JsonResponse("error", 400);
 
-        $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($password);
+        if ($form->isValid()) {
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
+            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
 
-        return new JsonResponse("Votre compte a été crée avec succès");
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return new JsonResponse("Votre compte a été crée avec succès");
+        }
+
+        return new JsonResponse("not work");
     }
 
     /**
@@ -251,6 +322,4 @@ class DefaultController extends Controller
 
         return new JsonResponse("votre message a bien été envoyé");
     }
-
-
 }
