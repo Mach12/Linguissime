@@ -10,19 +10,28 @@ security:
 
     firewalls:
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/api/(_(profiler|wdt|doc))/
             security: false
 
-        main:
-            anonymous: ~
+        login:
+            pattern:  ^/api/login
+            stateless: true
+            anonymous: true
+            provider:   main
             form_login:
-                login_path: login
-                check_path: login
-                default_target_path: dashboard
-            logout:
-                path:   /logout
-                target: /login
+                check_path:               /api/login_check
+                username_parameter:       _username
+                password_parameter:       _password
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+
+        api:
+            pattern:   ^/api
+            stateless: true
+            lexik_jwt: ~
 
     access_control:
-        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
 
