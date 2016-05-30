@@ -12,6 +12,7 @@ use AppBundle\Utils\Model\ChangePassword;
 use AppBundle\Utils\Form\ChangePasswordType;
 use AppBundle\Utils\Form\ChangeAccountType;
 use AppBundle\Entity\Badge;
+use AppBundle\Entity\ExerciceDone;
 use AppBundle\Entity\BadgeManager;
 use AppBundle\Model\Contact;
 use AppBundle\Model\Form\ContactType;
@@ -174,6 +175,30 @@ class DefaultController extends Controller
         }
 
         return new JsonResponse("error", 400);
+    }
+
+    /**
+     * @Route("/settings/stats", name="update_stats")
+     */
+    public function UpdateStatsAction()
+    {
+         $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:User');
+
+        $user = $repository->find(1);
+
+        $exercise = new ExerciceDone();
+        $exercise->setName("toto");
+        $exercise->setPoints(2);
+
+        $user->addExercicedone($exercise);
+        $exercise->setUser($user);
+
+         $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
     }
 
 
