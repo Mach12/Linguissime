@@ -43,17 +43,13 @@ class DefaultController extends Controller
      * @Route("/user/dashboard", name="dashboard")
      */
     public function DashboardAction()
-    {
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:User');
+    {   
 
-        $user = $repository->find(1);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $encoder = new JsonEncoder();
         $normalizer = new ObjectNormalizer();
-        $normalizer->setIgnoredAttributes(array('image', 'roles', 'password', 'plainPassword','salt','id'));
+        $normalizer->setIgnoredAttributes(array('image', 'roles', 'password', 'plainPassword','salt','id','exercicedone'));
 
         $normalizer->setCircularReferenceHandler(function ($object) {
           return $object;
@@ -70,15 +66,14 @@ class DefaultController extends Controller
      */
     public function BadgesAction()
     {   
-        $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:User');
-
-        $user= $repository->find(1);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $em = $this->getDoctrine()->getManager();
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
+
+        if ($listBadgeAchivement == null) {
+            return new JsonResponse("Aucun badge");
+        }
 
         $encoder = new JsonEncoder();
         $normalizer = new ObjectNormalizer();
@@ -99,7 +94,7 @@ class DefaultController extends Controller
      */
     public function ChangePasswordAction(Request $request)
     {
-        $user =  $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $password = new ChangePassword();
        
         $form = $this->createForm(ChangePasswordType::class, $password);
@@ -146,7 +141,9 @@ class DefaultController extends Controller
      */
     public function ChangeImageAction(Request $request)
     {
-        $user = new User();
+        //  $request->files-> 
+        
+        $user =  $this->get('security.token_storage')->getToken()->getUser();
 
         $form = $this->createForm(ChangeImageType::class, $user);
         $form->handleRequest($request);
@@ -179,39 +176,68 @@ class DefaultController extends Controller
     /**
      * @Route("/settings/stats", name="update_stats")
      */
-    public function UpdateStatsAction()
-    {
-         $repository = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('AppBundle:User');
+    public function updateStatsAction()
+    {       
 
-        $user = $repository->find(1);
+        $user =  $this->get('security.token_storage')->getToken()->getUser();
+
 
         $exercise = new ExerciceDone();
-        $exercise->setName("toto");
-        $exercise->setPoints(2);
+
+        $exercise->setName("totoxx");
+        $exercise->setPoints(3);
 
         $user->addExercicedone($exercise);
+
+
         $exercise->setUser($user);
 
          $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+
+        $em->persist($user);
+        $em->flush();
+         return new JsonResponse("work");
+    }
+
+    /**
+     * @Route("/user/stats", name="show_stats")
+     */
+    public function showStatsAction()
+    {       
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('AppBundle:ExerciceDone');
+
+        $exercices = $repository->findByUser($user);
+
+        if ($exercices == null) {
+            return new JsonResponse("Aucun exercice fait");
+        }
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes(array('user', '__initializer__', '__isInitialized__', '__cloner__','timestamp','offset','timezone','longitude','latitude','id'));
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+          return $object;
+        });
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+        $data = $serializer->serialize($exercices, 'json');
+
+        return new Response($data);
     }
 
 
     /**
      * @Route("/settings/points", name="update_points")
      */
-    public function UpdatePointsAction()
+    public function updatePointsAction()
     {
-        $repository = $this
-  ->getDoctrine()
-  ->getManager()
-  ->getRepository('AppBundle:User');
-
-$user= $repository->find(1);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
         $user->setPoints($user->getPoints() + 30);
 
         $em = $this->getDoctrine()->getManager();
@@ -291,14 +317,14 @@ $user= $repository->find(1);
         $form->handleRequest($request);
 
 
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+        $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+        $user->setPassword($password);
 
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
 
-            return new JsonResponse("Votre compte a été crée avec succès");
+        return new JsonResponse("Votre compte a été crée avec succès");
         
 
         return new JsonResponse("not work");
@@ -307,14 +333,18 @@ $user= $repository->find(1);
     /**
      * @Route("invitation", name="invitation")
      */
-    public function invitationAction(Request $request)
-    {       
+    public function invitationAction()
+    {   
+        $user =  $this->get('security.token_storage')->getToken()->getUser();
+
+        $fullname = $user->getUserName() . " " . $user->getName();
+
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject("Rejoindre Linguissime")
             ->setFrom("agrandiere@intechinfo.fr")
             ->setTo("agrandiere@intechinfo.fr")
-            ->setBody("Bonjour, Vous avez reçu une invitation de la part d'un de vos amis pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
+            ->setBody("Bonjour, Vous avez reçu une invitation de la part de" . $fullname . "pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
 
             $this->get('mailer')->send($message);  
 
