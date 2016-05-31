@@ -4,32 +4,56 @@ namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpKernel\Client;
 
 class DefaultControllerTest extends WebTestCase
-{   
+{  
+    
+    /**
+     * @var Client
+     */
+    protected $client;
 
-    public function testShowPost()
+    /**
+     * {@inheritdoc}
+     */
+    public function setUp()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/register/api');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->client = static::createClient();
     }
 
-    public function testCreateSellerAction()
+    /**
+     * test login
+     */
+    public function testLoginFailure()
     {
-        $client = static::createClient();
-        $client->request(
-            'POST', 
-            '/contact/api',  
-            array(),
-            array(),
-            array('CONTENT_TYPE' => 'application/json'),
-            '{"email":"test@yahoo.com", "subject":"testtest","content": "testtest"}'
+        $data = array(
+            '_username' => 'user',
+            '_password' => 'userwrongpass',
         );
 
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->client->request('POST', '/api/login_check', $data);
+        $this->assertFalse($this->client->getResponse()->isSuccessful());
+    } 
+
+        /**
+     * test login
+     */
+    public function testLoginSuccess()
+    {
+        $data = array(
+            '_username' => 'test@yahoo.com',
+            '_password' => 'testtest',
+        );
+
+        $this->client->request('POST', '/api/login_check', $data);
+        $this->client->getResponse()->isSuccessful();
+
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+
+        $response = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('token', $response);
     }
+
 
 }

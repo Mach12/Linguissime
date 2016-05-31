@@ -141,8 +141,8 @@ class DefaultController extends Controller
      */
     public function ChangeImageAction(Request $request)
     {
-        //  $request->files-> 
-        
+        //  $image = $request->files->get('file'); $user->setImage($image);
+
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
         $form = $this->createForm(ChangeImageType::class, $user);
