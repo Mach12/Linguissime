@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Client;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultControllerTest extends WebTestCase
 {  
@@ -53,6 +54,31 @@ class DefaultControllerTest extends WebTestCase
 
         $response = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('token', $response);
+
+         $client = static::createClient();
+        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $response['token']));
+        $client->request('GET', '/api/dashboard');
+
+        $this->assertJsonResponse($client->getResponse(), 200, false);
+    }
+
+        /**
+     * @param Response $response
+     * @param int      $statusCode
+     * @param bool     $checkValidJson
+     */
+    protected function assertJsonResponse(Response $response, $statusCode = 200, $checkValidJson = true)
+    {
+        $this->assertEquals($statusCode, $response->getStatusCode(), $response->getContent());
+        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), $response->headers);
+
+        if ($checkValidJson) {
+            $decode = json_decode($response->getContent(), true);
+            $this->assertTrue(
+                ($decode !== null && $decode !== false),
+                'is response valid json: [' . $response->getContent() . ']'
+            );
+        }
     }
 
 
