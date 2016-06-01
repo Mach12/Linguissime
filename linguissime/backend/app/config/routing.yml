@@ -7,3 +7,8 @@ app:
 api_login_check:
     path: /api/login_check
 
+
+register:
+    path: /register
+    defaults:  { _controller: AppBundle:Default:register }
+

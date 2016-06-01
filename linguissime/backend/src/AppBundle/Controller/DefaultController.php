@@ -192,7 +192,7 @@ class DefaultController extends Controller
 
         $exercise->setUser($user);
 
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         $em->persist($user);
         $em->flush();
@@ -302,31 +302,32 @@ class DefaultController extends Controller
         return new JsonResponse("votre message a bien été envoyé");
     }
 
-    /**
-     * @Route("register", name="register")
-     */
     public function registerAction(Request $request)
-    {   
+    {  
+    /* 
         $user = new User();
         $user->setEmail('test@yahoo.com');
         $user->setName('test');
         $user->setUserName('test');
-        $user->setPlainPassword('testtest');
+        $user->setPlainPassword('testtest'); */
+
+        $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);
         $form->handleRequest($request);
 
+        if ($form->isValid()) {
 
-        $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
-        $user->setPassword($password);
+            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($user);
-        $em->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
 
-        return new JsonResponse("Votre compte a été crée avec succès");
+            return new JsonResponse("Votre compte a été crée avec succès");
+        }
         
-
         return new JsonResponse("not work");
     }
 
