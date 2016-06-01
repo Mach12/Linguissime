@@ -24,6 +24,45 @@ class DefaultControllerTest extends WebTestCase
     }
 
     /**
+     * test Register
+     */
+    public function testRegister()
+    {
+        $data = array(
+            'register[username]' => 'blablabla',
+            'register[email]' => 'blablabla@yahoo.com',
+            'register[plainPassword]' => 'blablablabla',
+        );
+
+        $this->client->request('POST', '/register', $data);
+        $this->assertTrue($this->client->getResponse()->isSuccessful());
+    }
+
+    /**
+     * test Register
+     */
+    public function testRegisterFailure()
+    {
+        $data = array(
+            'register[username]' => 'test',
+            'register[email]' => null,
+            'register[plainPassword]' => 'antoineantoine',
+        );
+
+        $this->client->request('POST', '/register', $data);
+        $this->assertFalse($this->client->getResponse()->isSuccessful());
+
+        $data = array(
+            'register[username]' => 'antoineantoine',
+            'register[email]' => 'wrong email !',
+            'register[plainPassword]' => 'antoineantoine'
+        );
+
+        $this->client->request('POST', '/register', $data);
+        $this->assertFalse($this->client->getResponse()->isSuccessful());
+    }  
+
+    /**
      * test login
      */
     public function testLoginFailure()
@@ -48,39 +87,61 @@ class DefaultControllerTest extends WebTestCase
         );
 
         $this->client->request('POST', '/api/login_check', $data);
-        $this->client->getResponse()->isSuccessful();
 
         $this->assertTrue($this->client->getResponse()->isSuccessful());
 
         $response = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('token', $response);
 
-        
-         $client = static::createClient();
-        $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $response['token']));
-        $client->request('GET', '/api/dashboard');
 
-        $this->assertJsonResponse($client->getResponse(), 200, false);
+        $client = static::createClient();
+
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->request('GET',
+            '/api/user/dashboard',
+            array(),    
+            array(),    
+            array());
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $client = static::createClient();
+
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->request('GET',
+            '/api/user/badges',
+            array(),    
+            array(),    
+            array());
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        /*
+
+        $data = array(
+            'change_password[oldPassword]' => 'testtest',
+            'change_password[newPassword]' => 'testtest',
+        );
+
+        $client = static::createClient();
+
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->request('POST', '/api/user/settings/password', $data);
+
+        $this->assertTrue($client->getResponse()->isSuccessful()); */
+
     }
-
-        /**
-     * @param Response $response
-     * @param int      $statusCode
-     * @param bool     $checkValidJson
-     */
-    protected function assertJsonResponse(Response $response, $statusCode = 200, $checkValidJson = true)
-    {
-        $this->assertEquals($statusCode, $response->getStatusCode(), $response->getContent());
-        $this->assertTrue($response->headers->contains('Content-Type', 'application/json'), $response->headers);
-
-        if ($checkValidJson) {
-            $decode = json_decode($response->getContent(), true);
-            $this->assertTrue(
-                ($decode !== null && $decode !== false),
-                'is response valid json: [' . $response->getContent() . ']'
-            );
-        }
-    }
-
 
 }
