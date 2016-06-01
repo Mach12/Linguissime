@@ -304,13 +304,7 @@ class DefaultController extends Controller
 
     public function registerAction(Request $request)
     {  
-    /* 
-        $user = new User();
-        $user->setEmail('test@yahoo.com');
-        $user->setName('test');
-        $user->setUserName('test');
-        $user->setPlainPassword('testtest'); */
-
+    
         $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);
@@ -325,10 +319,10 @@ class DefaultController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return new JsonResponse("Votre compte a été crée avec succès");
+            return new JsonResponse("Your account has been created with success");
         }
-        
-        return new JsonResponse("not work");
+
+        return new JsonResponse("invalid data");
     }
 
     /**

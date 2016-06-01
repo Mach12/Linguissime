@@ -55,6 +55,7 @@ class DefaultControllerTest extends WebTestCase
         $response = json_decode($this->client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('token', $response);
 
+        
          $client = static::createClient();
         $client->setServerParameter('HTTP_Authorization', sprintf('%s %s', $this->authorizationHeaderPrefix, $response['token']));
         $client->request('GET', '/api/dashboard');

@@ -22,6 +22,7 @@ class RegisterType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'csrf_protection' => false,
             'data_class' => 'AppBundle\Entity\User',
             'validation_groups' => array('register')
         ));
