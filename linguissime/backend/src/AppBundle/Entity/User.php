@@ -57,6 +57,7 @@ class User implements UserInterface
 
     /**
      * @Assert\NotBlank(groups={"register"})
+     * @Assert\Email(groups={"register"})
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      */
     private $email;

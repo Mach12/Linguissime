@@ -1,0 +1,24 @@
+LOGIN :
+
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/login_check -d _username=tot1o@yahoo.com -d _password=newpassword
+
+REGISTER :
+
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=blablabla@yahoo.com -d register[username]=blablabla -d register[plainPassword]=blablabla
+
+DASHBOARD :
+
+curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/dashboard'
+
+BADGES :
+
+curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/badges'
+
+STATS :
+
+curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/stats'
+
+CHANGE PASSWORD :
+
+curl -XPOST -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=toto1toto -d change_password[newPassword]=newpassword
+

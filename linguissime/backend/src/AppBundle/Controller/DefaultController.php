@@ -111,7 +111,7 @@ class DefaultController extends Controller
             return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
         }
 
-        return new JsonResponse("error", 400);
+        return new JsonResponse("Invalid Data", 400);
 
     }
 
@@ -304,7 +304,6 @@ class DefaultController extends Controller
 
     public function registerAction(Request $request)
     {  
-    
         $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);
@@ -321,8 +320,7 @@ class DefaultController extends Controller
 
             return new JsonResponse("Your account has been created with success");
         }
-
-        return new JsonResponse("invalid data");
+        return new JsonResponse("Invalid data", 400);
     }
 
     /**
