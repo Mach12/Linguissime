@@ -13,14 +13,14 @@ class ChangePasswordType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('oldPassword', PasswordType::class, array('label' => false))
-            ->add('newPassword', RepeatedType::class, array('label' => false,
-                'type' => PasswordType::class,'first_options'  => array('label' => false),'second_options' => array('label' => false)));
+            ->add('oldPassword', PasswordType::class)
+            ->add('newPassword', PasswordType::class);
     }
     
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'csrf_protection' => false,
             'data_class' => 'AppBundle\Utils\Model\ChangePassword',
         ));
     }
