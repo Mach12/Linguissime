@@ -55,8 +55,8 @@ swiftmailer:
     host:       email-smtp.eu-west-1.amazonaws.com
     port:       25 # different ports are available, see SES console
     encryption: tls # TLS encryption is required
-    username:   AKIAJOSDSNIF27FX5LYQ
-    password:   AkY6zDdFuWXSkuwzqEgObHLeY30WbLunVglydbPjRBHM
+    username:   AKIAIU7766DJWZWXLOMQ
+    password:   Ak4TRGDaOAb/Ny9gItztQ2GNNi3JCVSk9Y/2tveiS47u
 
 
 aws:

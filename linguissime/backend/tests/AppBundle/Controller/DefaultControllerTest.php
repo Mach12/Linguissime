@@ -62,10 +62,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertFalse($this->client->getResponse()->isSuccessful());
     } 
 
-        /**
-     * test login
-     */
-    public function testLoginSuccess()
+    public function testApi()
     {
         $data = array(
             '_username' => 'test@yahoo.com',
@@ -97,11 +94,7 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
-        $client->request('GET',
-            '/api/user/badges',
-            array(),    
-            array(),    
-            array());
+        $client->request('GET','/api/user/badges');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertNotEmpty($client->getResponse()->getContent());
@@ -161,10 +154,22 @@ class DefaultControllerTest extends WebTestCase
         ]);
 
         $client->request('PUT', '/api/user/settings/image', array('photo' => $photo));
-        var_dump($client->getResponse()->getContent());
-
         $this->assertTrue($client->getResponse()->isSuccessful());
+        
 
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->enableProfiler();
+
+        $crawler = $client->request('GET', '/api/invitation');
+
+        $mailCollector = $client->getProfile()->getCollector('swiftmailer');
+
+        $this->assertEquals(1, $mailCollector->getMessageCount());
 
     }
 }

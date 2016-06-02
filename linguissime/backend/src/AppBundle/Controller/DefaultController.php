@@ -277,11 +277,11 @@ class DefaultController extends Controller
      * @Method({"POST"})
      */
     public function contactAction(Request $request)
-    {       
+    {   
         $contact = new Contact();
-        $contact->setContent('testyahoo');
-        $contact->setEmail('testyahoo@yahoo.com');
-        $contact->setSubject('testyahoo');
+        $contact->setContent($request->request->get('content'));
+        $contact->setEmail($request->request->get('email'));
+        $contact->setSubject($request->request->get('subject'));
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
@@ -334,9 +334,9 @@ class DefaultController extends Controller
             ->setSubject("Rejoindre Linguissime")
             ->setFrom("agrandiere@intechinfo.fr")
             ->setTo("agrandiere@intechinfo.fr")
-            ->setBody("Bonjour, Vous avez reçu une invitation de la part de" . $fullname . "pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
+            ->setBody("Bonjour, Vous avez reçu une invitation de la part de " . $fullname . " pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
 
-            $this->get('mailer')->send($message);  
+            $this->get('mailer')->send($message);
 
         return new JsonResponse("votre message a bien été envoyé");
     }
