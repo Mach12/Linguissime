@@ -31,7 +31,6 @@ class ChangeAccountType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\User',
-            'validation_groups' => array('change_account')
         ));
     }
 }

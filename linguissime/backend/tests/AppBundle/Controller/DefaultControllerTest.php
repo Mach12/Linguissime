@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultControllerTest extends WebTestCase
 {  
@@ -145,5 +146,25 @@ class DefaultControllerTest extends WebTestCase
         $client->request('PUT', '/api/settings/data', $data);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertNotEmpty($client->getResponse()->getContent());
+
+        $photo = new UploadedFile(
+            '/Users/grandiereantoine/Documents/test.png',
+            'test.png',
+            'image/png',
+            123
+        );
+
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->request('PUT', '/api/user/settings/image', array('photo' => $photo));
+        var_dump($client->getResponse()->getContent());
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+
     }
 }

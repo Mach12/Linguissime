@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultController extends Controller
 {
@@ -128,12 +129,12 @@ class DefaultController extends Controller
         $form = $this->createForm(ChangeAccountType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return new JsonResponse("work");
+            return new JsonResponse("Your account has been updated successfully");
         }
 
         return new JsonResponse("error", 400);
@@ -141,39 +142,30 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/settings/image", name="change_image")
+     * @Method({"PUT"})
      */
     public function ChangeImageAction(Request $request)
     {
-        //  $image = $request->files->get('file'); $user->setImage($image);
+        $image = $request->request->get('photo');
 
         $user =  $this->get('security.token_storage')->getToken()->getUser();
+        $user->setImage($image);
 
-        $form = $this->createForm(ChangeImageType::class, $user);
-        $form->handleRequest($request);
+        $image_path = md5(uniqid()).'.'.$image->guessExtension();
+        $user->setPath($image_path);
 
-        if ($form->isValid()) {
+        $client = $this->get('aws.s3');
 
-            $image = $user->getImage();
-            $image_path = md5(uniqid()).'.'.$file->guessExtension();
+        $result = $client->putObject([
+            'Bucket' => 'img-pi',
+            'Key'    =>  $image_path,
+            'body' =>  $image
+        ]);
 
-            $client = $this->get('aws.s3');
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
 
-            $result = $client->putObject([
-                'Bucket' => 'img-pi',
-                'Key'    =>  'e',
-                'body' =>  'e.txt'
-            ]);  
-
-            $user->setPath($image_path);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return new JsonResponse("work");
-        }
-
-        return new JsonResponse("error", 400);
+        return new JsonResponse("Your account has been updated successfully");
     }
 
     /**
@@ -287,8 +279,8 @@ class DefaultController extends Controller
     public function contactAction(Request $request)
     {       
         $contact = new Contact();
-        $contact->setEmail('test@yahoo.com');
         $contact->setContent('testyahoo');
+        $contact->setEmail('testyahoo@yahoo.com');
         $contact->setSubject('testyahoo');
 
         $form = $this->createForm(ContactType::class, $contact);
@@ -328,7 +320,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("invitation", name="invitation")
+     * @Route("/invitation", name="invitation")
      * @Method({"GET"})
      */
     public function invitationAction()
