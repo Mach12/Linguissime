@@ -1,6 +1,3 @@
-declare function require(name:string);
-var bootstraploader = require('bootstrap-loader');
-
 import router from '../router.config';
 import navbar from './navbar/navbar';
 

@@ -1,6 +1,6 @@
 var lib = require('./library.config.js');
 
-module.exports = {  
+module.exports = { 
     target: 'node',
     output: {
         filename: 'bundle.js'
