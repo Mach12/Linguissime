@@ -41,10 +41,10 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/dashboard", name="dashboard")
+     * @Method({"GET"})
      */
     public function DashboardAction()
     {   
-
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $encoder = new JsonEncoder();
@@ -63,6 +63,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/badges", name="badges")
+     * @Method({"GET"})
      */
     public function BadgesAction()
     {   
@@ -91,6 +92,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/settings/password", name="change_password")
+     * @Method({"PUT"})
      */
     public function ChangePasswordAction(Request $request)
     {
@@ -117,6 +119,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/settings/account", name="change_account")
+     * @Method({"PUT"})
      */
     public function ChangeAccountAction(Request $request)
     {
@@ -175,32 +178,31 @@ class DefaultController extends Controller
 
     /**
      * @Route("/settings/stats", name="update_stats")
+     * @Method({"PUT"})
      */
-    public function updateStatsAction()
+    public function updateStatsAction(Request $request)
     {       
-
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
 
         $exercise = new ExerciceDone();
 
-        $exercise->setName("totoxx");
-        $exercise->setPoints(3);
+        $exercise->setName($request->request->get('name'));
+        $exercise->setPoints($request->request->get('points'));
 
         $user->addExercicedone($exercise);
-
 
         $exercise->setUser($user);
 
         $em = $this->getDoctrine()->getManager();
-
-        $em->persist($user);
         $em->flush();
-         return new JsonResponse("work");
+        
+        return new JsonResponse("Success");
     }
 
     /**
      * @Route("/user/stats", name="show_stats")
+     * @Method({"GET"})
      */
     public function showStatsAction()
     {       
@@ -233,12 +235,13 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/settings/points", name="update_points")
+     * @Route("/settings/data", name="update_data")
+     * @Method({"PUT"})
      */
-    public function updatePointsAction()
+    public function updateDataAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user->setPoints($user->getPoints() + 30);
+        $user->setPoints($user->getPoints() + $request->request->get('points'));
 
         $em = $this->getDoctrine()->getManager();
 
@@ -274,11 +277,12 @@ class DefaultController extends Controller
 
         $em->flush();
 
-        die();
+        return new JsonResponse("Success");
     }
 
     /**
      * @Route("contact", name="contact")
+     * @Method({"POST"})
      */
     public function contactAction(Request $request)
     {       
@@ -325,6 +329,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("invitation", name="invitation")
+     * @Method({"GET"})
      */
     public function invitationAction()
     {   
