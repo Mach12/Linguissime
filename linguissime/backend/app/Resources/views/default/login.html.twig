@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Linguissime</a>
+        </div>
+    </nav>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    
+
+    <div class="container">
+        <div class="row center-block">
+            <div class="col-md-6 col-sm-12 col-lg-4 col-md-offset-4">
+                <div class="card card-shadow">
+                    <div class="card-block">
+                        <h1 class="card-title text-xs-center h4 m-b-2">Connexion à Linguissime</h1>
+                        <form action="{{ path('api_login_check') }}" method="post">
+                            <fieldset class="form-group">
+                                <a class="btn btn-block btn-social btn-facebook">
+                                    <span class="fa fa-facebook"></span> Sign in with Facebook
+                                </a>
+                            </fieldset>
+      
+                            <fieldset class="form-group">
+                                <a class="btn btn-block btn-social btn-google">
+                                    <span class="fa fa-google"></span> Sign in with Google
+                                </a>
+                            </fieldset>
+
+                            <div class="hr-text" data-text="ou"></div>
+
+                            <fieldset class="form-group">
+                            	<input type="text" name="_username" value="{{ last_username }}" class="form-control" placeholder="E-mail" />
+                            </fieldset>
+
+                            <fieldset class="form-group">
+                            	<input type="password"  name="_password" class="form-control" placeholder="Mot de passe" />
+                            </fieldset>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Se souvenir de moi 
+                                </label>
+                            </div>
+
+                            <fieldset class="form-group m-b-0" style="display:block">
+                                <button type="submit" class="btn btn-block btn-primary">Connexion</button>
+                                <p class="m-b-0 p-t-1">Vous n'avez pas de compte ? <a href="{{ path('register') }}" class="link-primary">Inscrivez-vous</a></p>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+

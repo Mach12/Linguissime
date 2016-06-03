@@ -1,0 +1,14 @@
+app:
+    resource: "@AppBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /api
+
+
+api_login_check:
+    path: /api/login_check
+
+
+register:
+    path: /register
+    defaults:  { _controller: AppBundle:Default:register }
+

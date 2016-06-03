@@ -1,0 +1,63 @@
+
+
+                
+                <div class="card">
+                    <div class="card-header">
+                        Informations personnelles
+                    </div>
+                    <div class="card-block">
+                        {{ form_start(form) }}
+                            <fieldset class="form-group row">
+                                <label for="username" class="col-md-2 form-control-label">Prénom</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.username, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </fieldset>
+
+                           <fieldset class="form-group row">
+                                <label for="name" class="col-md-2 form-control-label">Nom</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label class="col-md-2 form-control-label">Sexe</label>
+                                <div class="col-md-3">
+                                    {{ form_row(form.sexe, {'attr': {'class': 'form-control m-t-5'}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label for="email" class="col-md-2 form-control-label">E-mail</label>
+                                <div class="col-md-10">
+                                	{{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+                                    <p class="text-gray-light m-t-10 s-14" >Nous ne partagerons pas votre adresse e-mail privée avec d'autres utilisateurs.</p>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label class="col-md-2 form-control-label">Lieu de résidence</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.residence, {'attr': {'class': 'form-control','placeholder': 'Par exemple Paris, France / Brooklyn, NY'}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group row">
+                                <label for="description" class="col-md-2 form-control-label">Description</label>
+                                <div class="col-md-10">
+                                    {{ form_row(form.description, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="form-group m-b-0">
+                                <button type="submit" class="btn btn-sm pull-xs-right btn-primary">Enregistrer les modifications</button>
+                            </fieldset>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
