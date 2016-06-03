@@ -240,6 +240,8 @@ class DefaultController extends Controller
         $listBadges = $em->getRepository('AppBundle:Badge')->findAll();
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
 
+        $user->setLevel($user->getLevel() + 1);
+
         foreach ($listBadges as $badge)
         {  
             $found = false;

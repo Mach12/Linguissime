@@ -26,7 +26,7 @@ SHOW STATS :
 
 curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/stats'
 
-UPDATE DATA (points + badges) :
+UPDATE DATA (points + badges + level) :
 
 curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=200
 
