@@ -1,11 +1,16 @@
+/register (POST)
+
 api/login (POST)
-api/register (POST)
 api/contact (POST)
 api/search (POST)
 api/exercise (GET)
+api/invitation (GET)
+
+api/settings/data (PUT, update points, badges and level)
+api/settings/stats (PUT, update stats)
 
 api/user/dashboard ( tableau bord, GET)
-api/user/badge (GET)
+api/user/badges (GET)
 api/user/stats ( stats des exercices fait, GET)
 api/user/settings/password (change password, PUT)
 api/user/settings/account( change profile, PUT)

@@ -23,6 +23,7 @@ use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DefaultController extends Controller
 {
@@ -41,10 +42,10 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/dashboard", name="dashboard")
+     * @Method({"GET"})
      */
     public function DashboardAction()
     {   
-
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $encoder = new JsonEncoder();
@@ -63,6 +64,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/badges", name="badges")
+     * @Method({"GET"})
      */
     public function BadgesAction()
     {   
@@ -91,6 +93,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/settings/password", name="change_password")
+     * @Method({"PUT"})
      */
     public function ChangePasswordAction(Request $request)
     {
@@ -117,6 +120,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/settings/account", name="change_account")
+     * @Method({"PUT"})
      */
     public function ChangeAccountAction(Request $request)
     {
@@ -125,12 +129,12 @@ class DefaultController extends Controller
         $form = $this->createForm(ChangeAccountType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid() && $form->isSubmitted()) {
+        if ($form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
-            return new JsonResponse("work");
+            return new JsonResponse("Your account has been updated successfully");
         }
 
         return new JsonResponse("error", 400);
@@ -138,69 +142,59 @@ class DefaultController extends Controller
 
     /**
      * @Route("/user/settings/image", name="change_image")
+     * @Method({"PUT"})
      */
     public function ChangeImageAction(Request $request)
     {
-        //  $image = $request->files->get('file'); $user->setImage($image);
+        $image = $request->request->get('photo');
 
         $user =  $this->get('security.token_storage')->getToken()->getUser();
+        $user->setImage($image);
 
-        $form = $this->createForm(ChangeImageType::class, $user);
-        $form->handleRequest($request);
+        $image_path = md5(uniqid()).'.'.$image->guessExtension();
+        $user->setPath($image_path);
 
-        if ($form->isValid()) {
+        $client = $this->get('aws.s3');
 
-            $image = $user->getImage();
-            $image_path = md5(uniqid()).'.'.$file->guessExtension();
+        $result = $client->putObject([
+            'Bucket' => 'img-pi',
+            'Key'    =>  $image_path,
+            'body' =>  $image
+        ]);
 
-            $client = $this->get('aws.s3');
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
 
-            $result = $client->putObject([
-                'Bucket' => 'img-pi',
-                'Key'    =>  'e',
-                'body' =>  'e.txt'
-            ]);  
-
-            $user->setPath($image_path);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($user);
-            $em->flush();
-
-            return new JsonResponse("work");
-        }
-
-        return new JsonResponse("error", 400);
+        return new JsonResponse("Your account has been updated successfully");
     }
 
     /**
      * @Route("/settings/stats", name="update_stats")
+     * @Method({"PUT"})
      */
-    public function updateStatsAction()
+    public function updateStatsAction(Request $request)
     {       
-
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
 
         $exercise = new ExerciceDone();
 
-        $exercise->setName("totoxx");
-        $exercise->setPoints(3);
+        $exercise->setName($request->request->get('name'));
+        $exercise->setPoints($request->request->get('points'));
 
         $user->addExercicedone($exercise);
-
 
         $exercise->setUser($user);
 
         $em = $this->getDoctrine()->getManager();
-
-        $em->persist($user);
         $em->flush();
-         return new JsonResponse("work");
+        
+        return new JsonResponse("Success");
     }
 
     /**
      * @Route("/user/stats", name="show_stats")
+     * @Method({"GET"})
      */
     public function showStatsAction()
     {       
@@ -233,17 +227,20 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/settings/points", name="update_points")
+     * @Route("/settings/data", name="update_data")
+     * @Method({"PUT"})
      */
-    public function updatePointsAction()
+    public function updateDataAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user->setPoints($user->getPoints() + 30);
+        $user->setPoints($user->getPoints() + $request->request->get('points'));
 
         $em = $this->getDoctrine()->getManager();
 
         $listBadges = $em->getRepository('AppBundle:Badge')->findAll();
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
+
+        $user->setLevel($user->getLevel() + 1);
 
         foreach ($listBadges as $badge)
         {  
@@ -274,18 +271,19 @@ class DefaultController extends Controller
 
         $em->flush();
 
-        die();
+        return new JsonResponse("Success");
     }
 
     /**
      * @Route("contact", name="contact")
+     * @Method({"POST"})
      */
     public function contactAction(Request $request)
-    {       
+    {   
         $contact = new Contact();
-        $contact->setEmail('test@yahoo.com');
-        $contact->setContent('testyahoo');
-        $contact->setSubject('testyahoo');
+        $contact->setContent($request->request->get('content'));
+        $contact->setEmail($request->request->get('email'));
+        $contact->setSubject($request->request->get('subject'));
 
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
@@ -324,7 +322,8 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("invitation", name="invitation")
+     * @Route("/invitation", name="invitation")
+     * @Method({"GET"})
      */
     public function invitationAction()
     {   
@@ -337,9 +336,9 @@ class DefaultController extends Controller
             ->setSubject("Rejoindre Linguissime")
             ->setFrom("agrandiere@intechinfo.fr")
             ->setTo("agrandiere@intechinfo.fr")
-            ->setBody("Bonjour, Vous avez reçu une invitation de la part de" . $fullname . "pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
+            ->setBody("Bonjour, Vous avez reçu une invitation de la part de " . $fullname . " pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
 
-            $this->get('mailer')->send($message);  
+            $this->get('mailer')->send($message);
 
         return new JsonResponse("votre message a bien été envoyé");
     }

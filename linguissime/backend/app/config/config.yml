@@ -52,19 +52,19 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport:  smtp
-    host:       xx
+    host:       email-smtp.eu-west-1.amazonaws.com
     port:       25 # different ports are available, see SES console
     encryption: tls # TLS encryption is required
-    username:   xx
-    password:   xx
+    username:   AKIAIU7766DJWZWXLOMQ
+    password:   Ak4TRGDaOAb/Ny9gItztQ2GNNi3JCVSk9Y/2tveiS47u
 
 
 aws:
     version: latest
-    region: xx
+    region: eu-west-1
     credentials:
-        key: xx
-        secret: xx
+        key: AKIAJPTREWDDJRHJ4U3Q
+        secret: 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
     S3:
         version: latest
 

@@ -30,6 +30,13 @@ class User implements UserInterface
     private $exercicedone;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="level", type="integer")
+     */
+    private $level;
+
+    /**
      * @Assert\NotBlank(groups={"register"})
      * @ORM\Column(name="username", type="string", length=255)
      */
@@ -386,5 +393,29 @@ class User implements UserInterface
     public function getExercicedone()
     {
         return $this->exercicedone;
+    }
+
+    /**
+     * Set level
+     *
+     * @param integer $level
+     *
+     * @return User
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+
+        return $this;
+    }
+
+    /**
+     * Get level
+     *
+     * @return integer
+     */
+    public function getLevel()
+    {
+        return $this->level;
     }
 }

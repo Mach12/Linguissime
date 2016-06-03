@@ -10,15 +10,30 @@ DASHBOARD :
 
 curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/dashboard'
 
-BADGES :
+SHOW BADGES :
 
 curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/badges'
 
-STATS :
+CHANGE PASSWORD :
+
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=toto1toto -d change_password[newPassword]=newpassword
+
+UPDATE STATS :
+
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/stats' -d name=toto1toto -d points=50
+
+SHOW STATS :
 
 curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/stats'
 
-CHANGE PASSWORD :
+UPDATE DATA (points + badges + level) :
 
-curl -XPOST -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=toto1toto -d change_password[newPassword]=newpassword
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=200
 
+UPDATE ACCOUNT *
+
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/account' -d change_account[description]=paris
+
+SEND INVITATION :
+
+curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/invitation'
