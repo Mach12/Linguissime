@@ -1,11 +1,18 @@
 <div class="app">
-    <navbar></navbar>
+    <navbar v-show="showNavbar"></navbar>
+    <!-- Default code for this boilerplate
     <h1>Hello <span class="world">linguissime</span></h1>
     <ul>
         <li><a href="#" v-link="{ name: 'one' }">Part One</a></li>
         <li><a href="#" v-link="{ name: 'two'}">Part Two</a></li>
     </ul>
-
+    -->
+    <div class="linklist">
+        <h1>Pretty list of links</h1>
+        <span style="color: royalblue" @click="toggleNavbar">Toggle navbar</span><br/>
+        <a v-link="{ path: '/' }">Homepage</a><br/>
+        <a v-link="{ name: 'exercise' }">"Exercise" page</a>
+    </div>
     <router-view></router-view>
 </div>
 <style type="less" src="@"></style>

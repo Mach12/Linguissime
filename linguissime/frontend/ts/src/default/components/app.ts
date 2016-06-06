@@ -1,13 +1,23 @@
 declare function require(name:string);
 var bootstrap = require('bootstrap');
 
-import router from '../router.config';
-import navbar from './navbar/navbar';
+import router   from '../router.config';
+import navbar   from './navbar/navbar';
+import exercise from './exercise/exercise';
 
 var app = Vue.extend( {
     template: "@", //Means that the HTML is located at ./app.html
+    data: function(){return {
+        showNavbar: true
+    }},
     components: {
-        navbar
+        navbar,
+        exercise
+    },
+    methods: {
+        toggleNavbar: function(){
+            this.showNavbar = !this.showNavbar;
+        }
     }
 });
 
