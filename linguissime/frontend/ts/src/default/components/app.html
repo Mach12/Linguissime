@@ -9,8 +9,9 @@
     -->
     <div class="linklist">
         <h1>Pretty list of links</h1>
-        <span style="color: royalblue" @click="toggleNavbar">Toggle navbar</span><br/>
+        <button @click="toggleNavbar">Toggle navbar</button><br/>
         <a v-link="{ path: '/' }">Homepage</a><br/>
+        <a v-link="{ name: 'login' }">"Login" page</a>
         <a v-link="{ name: 'exercise' }">"Exercise" page</a>
     </div>
     <router-view></router-view>
