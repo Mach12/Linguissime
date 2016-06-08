@@ -1,5 +1,6 @@
 declare function require(name:string);
 var bootstrap = require('bootstrap');
+Vue.use(require('vue-resource'));
 
 import router   from '../router.config';
 import navbar   from './navbar/navbar';
@@ -7,6 +8,7 @@ import exercise from './exercise/exercise';
 
 var app = Vue.extend( {
     template: "@", //Means that the HTML is located at ./app.html
+    name: "App",
     data: function(){return {
         showNavbar: true
     }},
