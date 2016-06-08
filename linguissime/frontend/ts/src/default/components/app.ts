@@ -4,6 +4,7 @@ Vue.use(require('vue-resource'));
 
 import router   from '../router.config';
 import navbar   from './navbar/navbar';
+import linklist from './linklist/linklist'
 import exercise from './exercise/exercise';
 import login    from './login/login';
 
@@ -15,6 +16,7 @@ var app = Vue.extend( {
     }},
     components: {
         navbar,
+        linklist,
         exercise,
         login
     },
