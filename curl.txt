@@ -1,10 +1,10 @@
 LOGIN :
 
-curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/login_check -d _username=tot1o@yahoo.com -d _password=newpassword
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/login_check -d _username=antoinegrandiere1@yahoo.com -d _password=antoineantoine1
 
 REGISTER :
 
-curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=blablabla@yahoo.com -d register[username]=blablabla -d register[plainPassword]=blablabla
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=antoinegrandiere1@yahoo.com -d register[username]=antoinegrandiere1 -d register[plainPassword]=antoineantoine1
 
 DASHBOARD :
 
@@ -20,15 +20,15 @@ curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 UPDATE STATS :
 
-curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/stats' -d name=toto1toto -d points=50
+curl -XPUT -H 'Authorization: Bearer ' localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/stats' -d name=verbes -d points=50
 
 SHOW STATS :
 
-curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/stats'
+curl -XGET -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE0NjUyODk1MDMsImVtYWlsIjoiYW50b2luZWdyYW5kaWVyZTFAeWFob28uY29tIiwiaWF0IjoiMTQ2NTIwMzEwMyJ9.Pl0KC4PtmeUH8aO1eUdZD2HPi968LLzKe7n7KfgSIIE8YBqjt03LDop9p3gMzLkQWjvCfYx3Av4O7StaLrbUREpFJWzzon9Zr3SqkGq8BzsPHwnWV7nMw0hu-yXw145SMmznrb3Oz4VH8gsN3BvIUBIWN1K5thHv7WrZLnNdsIS6-R9leKP79vTORW4DF2oaLrwBsjqX6b9o-aVIuzdUymWztRkf45fnyPvtr48QyNq67S8y7ptE9de_vv50OYjkPWrm4ErTcVSKGJmC4KCWpWpDKAQ2MaJa1oONcROcXdODp1NvcLNNS-RTUYl3w0IAtoegqH5D1TniGap3QM2_dhvr2NQUvDOwRGREqzwy5n5bG0b5cVWHftoj2OKj7PfTCfBK-E_BnWsgBoXZN1RwjzFQzW0y3issP_Jpc01S5aAHwfLO6tES5rNgxQTgqE4VZmPbKPpchFnvVe0wDd4XKvxwS9QK5BT4YT5SoZVuMP_0ii9K5wJXAq_xpjOCvqIoVHd4s9vnMi8ewsvoj00hhRrc09W_wVYngfSobnWa0dngpJX-5mkL3MK2nhGv2Qi3rGAoXhedBuUE4Ylpe88CtYoYb5P5cXMLZ80zt47JlH9O1L__mbeIIMfHeNyzPKCpLPzwmyTejAExlDMlChxDeifrAYeC1E1UMnvLWQJGLHY' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/stats'
 
 UPDATE DATA (points + badges + level) :
 
-curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=200
+curl -XPUT -H 'Authorization: Bearer' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=300
 
 UPDATE ACCOUNT *
 

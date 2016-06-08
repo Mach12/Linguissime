@@ -136,6 +136,8 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
+       
+
         $client->request('PUT', '/api/settings/data', $data);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertNotEmpty($client->getResponse()->getContent());
@@ -170,6 +172,8 @@ class DefaultControllerTest extends WebTestCase
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
 
         $this->assertEquals(1, $mailCollector->getMessageCount());
+
+        
 
     }
 }

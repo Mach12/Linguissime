@@ -32,9 +32,9 @@ class User implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="level", type="integer")
+     * @ORM\Column(name="level", type="integer", nullable=true)
      */
-    private $level;
+    private $level = 1;
 
     /**
      * @Assert\NotBlank(groups={"register"})
