@@ -20,16 +20,16 @@
                         <div class="hr-text" data-text="ou"></div>
 
                         <fieldset class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="E-mail">
+                            <input type="email" class="form-control" id="loginEmail" placeholder="E-mail" v-model="email">
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Mot de passe">
+                            <input type="password" class="form-control" id="loginPassword" placeholder="Mot de passe" v-model="password">
                         </fieldset>
 
                         <div class="checkbox">
                             <label>
-                                    <input type="checkbox"> Se souvenir de moi 
+                                    <input type="checkbox" v-model="remember"> Se souvenir de moi 
                                 </label>
                             <a href="" class="text-gray-light pull-xs-right">mot de passe oublié ?</a>
                         </div>

@@ -1,3 +1,11 @@
 export default Vue.extend({
-    template: "@"
+    template: "@",
+    data: function() {return {
+        email: "",
+        password: "",
+        remember: false
+    }},
+    methods: {
+        
+    }
 });
