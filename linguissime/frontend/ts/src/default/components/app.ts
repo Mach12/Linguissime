@@ -5,6 +5,8 @@ Vue.use(require('vue-resource'));
 import router   from '../router.config';
 import navbar   from './navbar/navbar';
 import exercise from './exercise/exercise';
+import login    from './login/login';
+import auth     from './auth/auth';
 
 var app = Vue.extend( {
     template: "@", //Means that the HTML is located at ./app.html
@@ -14,7 +16,9 @@ var app = Vue.extend( {
     }},
     components: {
         navbar,
-        exercise
+        exercise,
+        auth,
+        login
     },
     methods: {
         toggleNavbar: function(){
