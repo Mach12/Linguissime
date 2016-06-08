@@ -1,3 +1,4 @@
 export default Vue.extend({
-    template: "@"
+    template: "@",
+    name: "Navbar"
 });

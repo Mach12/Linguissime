@@ -1,4 +1,5 @@
 export default Vue.extend({
+    name: "AuthenticationManager",
     data: function() {return {
         token: ""
     }},
