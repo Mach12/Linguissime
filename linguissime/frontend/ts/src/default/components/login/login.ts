@@ -7,6 +7,8 @@ export default Vue.extend({
         remember: false
     }},
     methods: {
-        
+        onSubmit: function() {
+            // Do the thing
+        }
     }
 });

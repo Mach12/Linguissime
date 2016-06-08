@@ -7,6 +7,6 @@ export default Vue.extend({
         }
     },
     ready: function () {
-        alert("Cannot fetch exercise data: query not ready.")
+        console.log("Cannot fetch exercise data: query not ready.")
     }
 })
