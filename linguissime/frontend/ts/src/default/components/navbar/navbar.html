@@ -7,23 +7,36 @@
             <a class="navbar-brand" v-link="{ path: '/' }">Linguissime</a>
 
             <ul class="nav navbar-nav pull-xs-right">
-                <li class="nav-item" style="padding-top:2px;">
-                    <a v-link="{ path: '/' }" class="nav-link">
-                        30
-                        <i style="padding-left:3px; color:#F4D03F;" class="fa fa-trophy" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/2/000/1a2/1ce/0ad60d0.jpg" class="m-r-5 img-circle" width="25" heigth="25"> Antoine
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="Preview">
-                        <a class="dropdown-item" href="#"> <i class="fa fa-cog" style="padding-right: 16px;" aria-hidden="true"></i>Paramètres</a>
-                        <a class="dropdown-item" href="#"> <i class="fa fa-tasks" aria-hidden="true" style="padding-right: 14px;"></i>Créer un exercice</a>
-                        <a class="dropdown-item" href="#"> <i class="fa fa-power-off" style="padding-right: 16px;" aria-hidden="true"></i>Déconnexion</a>
-                    </div>
-                </li>
+                <template v-if="!$root.isTokenValid">
+                    <li class="nav-item" style="padding-top:2px;">
+                        <a v-link="{ name: 'login' }" class="nav-link">
+                            Se connecter
+                        </a>
+                    </li>
+                    <li class="nav-item" style="padding-top:2px;">
+                        <a v-link="{ name: 'register' }" class="nav-link">
+                            S'inscrire
+                        </a>
+                    </li>
+                </template>
+                <template v-else>
+                    <li class="nav-item" style="padding-top:2px;">
+                        <a v-link="{ path: '/' }" class="nav-link">
+                            30
+                            <i style="padding-left:3px; color:#F4D03F;" class="fa fa-trophy" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/p/2/000/1a2/1ce/0ad60d0.jpg" class="m-r-5 img-circle" width="25" heigth="25"> Antoine
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="Preview">
+                            <a class="dropdown-item" href="#"> <i class="fa fa-cog" style="padding-right: 16px;" aria-hidden="true"></i>Paramètres</a>
+                            <a class="dropdown-item" href="#"> <i class="fa fa-tasks" aria-hidden="true" style="padding-right: 14px;"></i>Créer un exercice</a>
+                            <a class="dropdown-item" href="#"> <i class="fa fa-power-off" style="padding-right: 16px;" aria-hidden="true"></i>Déconnexion</a>
+                        </div>
+                    </li>
+                </template>
             </ul>
 
             <form class="form-inline pull-xs-left" style="margin-left:15px;">
