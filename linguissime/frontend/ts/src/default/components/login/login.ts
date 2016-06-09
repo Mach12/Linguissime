@@ -8,7 +8,7 @@ export default Vue.extend({
     }},
     methods: {
         onSubmit: function() {
-            // Do the thing
+            console.log("Do the login thing here.")
         }
     }
 });

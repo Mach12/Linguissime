@@ -10,7 +10,14 @@ export default Vue.extend({
     },
     methods: {
         onSubmit: function() {
-            console.log("Do the register thing here.")
+            this.$http.post('/api/web/app_dev.php/register',
+            {'register[email]': this.email, 'register[username]': this.username, 'register[plainPassword]': this.password},
+            {emulateHTTP: true})
+            .then(function(response){
+                console.log(response)
+            },function(response){
+                console.log(response)
+            })
         }
     }
 })
