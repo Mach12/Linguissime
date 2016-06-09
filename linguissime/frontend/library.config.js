@@ -8,7 +8,7 @@ var defaultJs = [
 ];
 
 var defaultCss = [
-    "./stylesheets/bootstrap.css"
+    "./public/stylesheets/bootstrap.css"
 ];
 
 module.exports = {
