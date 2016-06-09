@@ -1,6 +1,5 @@
 <div class="linklist">
     <h1>Pretty list of links</h1>
-    <button @click="toggleNavbar">Toggle navbar</button><br/>
     <a v-link="{ path: '/' }">Homepage</a>
     <a v-for="routename in links" v-link="{ name: routename }">"{{$key}}" page</a>
 </div>

@@ -1,4 +1,4 @@
-declare function require(name:string);
+declare function require(name: string);
 var bootstrap = require('bootstrap');
 Vue.use(require('vue-resource'));
 
@@ -8,22 +8,28 @@ import linklist from './linklist/linklist'
 import exercise from './exercise/exercise';
 import login    from './login/login';
 
-var app = Vue.extend( {
+var app = Vue.extend({
     template: "@", //Means that the HTML is located at ./app.html
     name: "App",
-    data: function(){return {
-        showNavbar: true
-    }},
+    data: function () {
+        return {
+            token: ""
+        }
+    },
     components: {
         navbar,
         linklist,
         exercise,
         login
     },
+    computed: {
+        isTokenValid: function () { return this.token !== "" },
+    },
     methods: {
-        toggleNavbar: function(){
+        toggleNavbar: function () {
             this.showNavbar = !this.showNavbar;
-        }
+        },
+        invalidateToken: function() { this.token = "" }
     }
 });
 
