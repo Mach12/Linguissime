@@ -318,7 +318,7 @@ class DefaultController extends Controller
 
             return new JsonResponse("Your account has been created with success");
         }
-        return new JsonResponse("Invalid data", 400);
+        return new JsonResponse(var_dump($request), 400);
     }
 
     /**
