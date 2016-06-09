@@ -4,7 +4,7 @@ import login    from './components/login/login';
 import register from './components/register/register';
 
 var router = new VueRouter({
-    history: true,
+    history: false,
 });
 router.map({
     'exercise': {
