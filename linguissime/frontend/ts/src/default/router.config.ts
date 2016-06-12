@@ -1,7 +1,8 @@
 Vue.use(VueRouter);
-import exercise from './components/exercise/exercise';
-import login    from './components/login/login';
-import register from './components/register/register';
+import exercise     from './components/pages/exercise/exercise';
+import login        from './components/pages/login/login';
+import register     from './components/pages/register/register';
+import dashboard    from './components/pages/dashboard/dashboard';
 
 var router = new VueRouter({
     history: false,
@@ -18,6 +19,10 @@ router.map({
     'register': {
         name: 'register',
         component: register
+    },
+    'dashboard': {
+        name: 'dashboard',
+        component: dashboard
     }
 });
 export default router;
