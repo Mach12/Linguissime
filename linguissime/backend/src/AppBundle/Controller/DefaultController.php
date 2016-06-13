@@ -176,7 +176,6 @@ class DefaultController extends Controller
     {       
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
-
         $exercise = new ExerciceDone();
 
         $exercise->setName($request->request->get('name'));
