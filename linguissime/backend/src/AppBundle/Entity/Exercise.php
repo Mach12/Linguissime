@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
 
 /**
  * Exercise
  *
  * @ORM\Table(name="exercise")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExerciseRepository")
+ * @Algolia\Index(perEnvironment=false)
  */
 class Exercise
 {
@@ -18,6 +20,7 @@ class Exercise
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Algolia\Attribute
      */
     private $id;
 
@@ -25,6 +28,7 @@ class Exercise
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @Algolia\Attribute
      */
     private $name;
 
@@ -32,6 +36,7 @@ class Exercise
      * @var string
      *
      * @ORM\Column(name="difficulty", type="string", length=255)
+     * @Algolia\Attribute
      */
     private $difficulty;
 
@@ -39,6 +44,7 @@ class Exercise
      * @var int
      *
      * @ORM\Column(name="duration", type="integer")
+     * @Algolia\Attribute
      */
     private $duration;
 
@@ -46,6 +52,7 @@ class Exercise
      * @var string
      *
      * @ORM\Column(name="description", type="text")
+     * @Algolia\Attribute
      */
     private $description;
 
