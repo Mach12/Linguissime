@@ -6,7 +6,9 @@ export default Vue.extend({
             "Login" : "login",
             "Register" : "register",
             "Exercise" : "exercise",
-            "Dashboard" : "dashboard"
+            "Dashboard" : "dashboard",
+            "Stats" : "statistics",
+            "Badge list" : "badges"
         }
     }}
 })
