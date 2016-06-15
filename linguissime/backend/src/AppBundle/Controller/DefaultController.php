@@ -300,7 +300,7 @@ class DefaultController extends Controller
     }
 
     public function registerAction(Request $request)
-    {  
+    {
         $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);

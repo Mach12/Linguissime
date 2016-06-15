@@ -8,7 +8,8 @@ export default Vue.extend({
             "Exercise" : "exercise",
             "Dashboard" : "dashboard",
             "Stats" : "statistics",
-            "Badge list" : "badges"
+            "Badge list" : "badges",
+            "Change password" : "changepassword"
         }
     }}
 })
