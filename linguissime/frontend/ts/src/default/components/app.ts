@@ -2,6 +2,8 @@ declare function require(name: string);
 var bootstrap = require('bootstrap');
 Vue.use(require('vue-resource'));
 
+import store        from './store'
+
 import router       from '../router.config';
 import navbar       from './navbar/navbar';
 import linklist     from './linklist/linklist'
@@ -32,7 +34,8 @@ var app = Vue.extend({
             this.showNavbar = !this.showNavbar;
         },
         invalidateToken: function() { this.token = "" }
-    }
+    },
+    store: store
 });
 
 //bootstrap the application using the router on the app component
