@@ -9,7 +9,8 @@ export default Vue.extend({
             "Dashboard" : "dashboard",
             "Stats" : "statistics",
             "Badge list" : "badges",
-            "Change password" : "changepassword"
+            "Change password" : "changepassword",
+            "Profile" : "profile"
         }
     }}
 })

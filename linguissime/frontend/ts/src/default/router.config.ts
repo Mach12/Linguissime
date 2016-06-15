@@ -6,6 +6,7 @@ import dashboard        from './components/pages/dashboard/dashboard';
 import statistics       from './components/pages/statistics/statistics';
 import badges           from './components/pages/badges/badges';
 import changepassword   from './components/pages/changepassword/changepassword';
+import profile          from './components/pages/profile/profile';
 
 var router = new VueRouter({
     history: false,
@@ -38,6 +39,10 @@ router.map({
     'changepassword': {
         name: 'changepassword',
         component: changepassword
+    },
+    'profile': {
+        name: 'profile',
+        component: profile
     }
 });
 export default router;
