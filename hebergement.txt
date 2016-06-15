@@ -1,0 +1,25 @@
+- EC2
+
+C’est un service permettant de louer des serveurs sur lesquels il est possible d’exécuter des applications.
+Une instance est un serveur virtuel.
+
+- Elastic Beanstalk 
+
+C’est une couche d’abstraction à amazon EC2.
+
+Une application dans Elastic Beanstalk est un ensemble de composants, son role est similaire à celui d’un dossier.
+Une version d’application est un ensemble de code qui peut être déployer. Chaque version d’application est unique.
+Un environnement est une version déployée. Chaque environnement fonctionne avec une et une seule version à la fois.
+
+- S3
+
+C’est un espace de stockage dans le cloud, c’est à dire un moyen simple de stocker, consulter et partager des données sur internet.
+
+- IAM
+
+C’est un service qui permet de contrôler de façon sécurisée l’accès aux services et ressources AWS pour des utilisateurs.
+
+On contrôle qui peut accéder aux ressources AWS ( authentification) et quelles ressources on peut utiliser ( autorisation ).
+
+Le compte AWS offre accès à toutes les fonctionnalités, pour donner accès à des fonctionnalités au cas par cas il est possible de créer des utilisateurs.
+Les utilisateurs ne sont pas des comptes différents, ils font chacun partie du compte AWS.
