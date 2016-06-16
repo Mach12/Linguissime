@@ -5,19 +5,27 @@ export default Vue.extend({
         return {
             username: "",
             email: "",
-            password: ""
+            password: "",
+            failed: false,
+            errorMessage: "",
+            trying: false
         }
     },
     methods: {
-        onSubmit: function() {
-            this.$http.post('/api/web/app_dev.php/register',
-            {'register[email]': this.email, 'register[username]': this.username, 'register[plainPassword]': this.password},
-            {emulateJSON: true})
-            .then(function(response){
-                console.log(response)
-            },function(response){
-                console.log(response)
-            })
+        onSubmit: function () {
+            this.trying = true
+
+            this.$http.post((this.$store.state.serverURI + '/register'),
+                { 'register[email]': this.email, 'register[username]': this.username, 'register[plainPassword]': this.password },
+                { emulateJSON: true })
+                .then(function (response) {
+                    this.$router.go({ name: 'login' })
+                    this.trying = false
+                }, function (response) {
+                    this.failed = true
+                    this.errorMessage = "Erreur: " + response.data
+                    this.trying = false
+                })
         }
     }
 })

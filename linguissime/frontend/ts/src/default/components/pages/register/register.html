@@ -1,9 +1,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
-            <div class="card">
+            <div class="card card-shadow">
                 <div class="card-block">
+                    <h1 class="card-title text-xs-center h4 m-b-2">Inscription à Linguissime</h1>
                     <form v-on:submit.prevent="onSubmit">
+                        <!--
                         <fieldset class="form-group">
                             <a class="btn btn-block btn-social btn-facebook">
                                 <span class="fa fa-facebook"></span> Sign in with Facebook
@@ -17,28 +19,31 @@
                         </fieldset>
 
                         <div class="hr-text" data-text="ou"></div>
+                        -->
+
+                        <div class="alert alert-danger" v-show="failed">{{errorMessage}}</div>
 
                         <fieldset class="form-group">
-                            <input type="string" class="form-control" placeholder="Username" v-model="username">
+                            <input type="string" class="form-control" placeholder="Username" v-model="username" :disabled="trying">
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <input type="email" class="form-control" placeholder="E-mail" v-model="email">
+                            <input type="email" class="form-control" placeholder="E-mail" v-model="email" :disabled="trying">
                         </fieldset>
 
                         <fieldset class="form-group">
-                            <input type="password" class="form-control" placeholder="Mot de passe" v-model="password">
+                            <input type="password" class="form-control" placeholder="Mot de passe" v-model="password" :disabled="trying">
                         </fieldset>
 
                         <div class="checkbox">
                             <label>
-                                    <input type="checkbox"> Se souvenir de moi 
+                                    <input type="checkbox" disabled> Se souvenir de moi 
                                 </label>
                             <a v-link="{ path: '/' }" class="text-gray-light pull-xs-right">mot de passe oublié ?</a>
                         </div>
 
                         <fieldset class="form-group m-b-0">
-                            <button type="submit" class="btn btn-block btn-primary">Inscription</button>
+                            <button type="submit" :class="'btn btn-block btn-primary' + (trying?'disabled':'')" :disabled="trying">Inscription</button>
                         </fieldset>
                     </form>
                 </div>

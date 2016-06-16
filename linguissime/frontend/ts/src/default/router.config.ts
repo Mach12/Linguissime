@@ -1,4 +1,7 @@
 Vue.use(VueRouter);
+
+import {isTokenValid}   from './components/vuex/getters';
+
 import exercise         from './components/pages/exercise/exercise';
 import login            from './components/pages/login/login';
 import register         from './components/pages/register/register';
@@ -18,11 +21,13 @@ router.map({
     },
     'login': {
         name: 'login',
-        component: login
+        component: login,
+        authpage: true
     },
     'register': {
         name: 'register',
-        component: register
+        component: register,
+        authpage: true
     },
     'dashboard': {
         name: 'dashboard',
@@ -43,6 +48,14 @@ router.map({
     'profile': {
         name: 'profile',
         component: profile
+    }
+});
+router.beforeEach(function (transition) {
+    if (!transition.to.params['authpage'] && !isTokenValid(transition.to.store.state)) {
+        transition.redirect('/login');
+    }
+    else if (transition.to.params['authpage'] && isTokenValid(transition.to.store.state)) {
+        transition.redirect('/dashboard');
     }
 });
 export default router;

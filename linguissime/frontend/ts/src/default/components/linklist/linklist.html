@@ -5,8 +5,8 @@
     </button>
     <template v-if="show">
         <h1>Pretty list of links</h1>
-        <button @click="$root.invalidateToken">Invalidate token</button>
-        <button @click="$root.token = 'test'">Add fake token</button>
+        <button @click="this.$store.dispatch('INVALIDATE_TOKEN')">Invalidate token</button>
+        <button @click="this.$store.dispatch('SET_TOKEN', 'test')">Add fake token</button>
         <a v-link="{ path: '/' }">Homepage</a>
         <a v-for="routename in links" v-link="{ name: routename }">"{{$key}}" page</a>
     </template>

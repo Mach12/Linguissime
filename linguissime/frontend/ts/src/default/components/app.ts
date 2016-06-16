@@ -2,7 +2,7 @@ declare function require(name: string);
 var bootstrap = require('bootstrap');
 Vue.use(require('vue-resource'));
 
-import store        from './store'
+import store        from './vuex/store'
 
 import router       from '../router.config';
 import navbar       from './navbar/navbar';
@@ -16,7 +16,6 @@ var app = Vue.extend({
     name: "App",
     data: function () {
         return {
-            token: ""
         }
     },
     components: {
@@ -27,15 +26,13 @@ var app = Vue.extend({
         login
     },
     computed: {
-        isTokenValid: function () { return this.token !== "" },
     },
     methods: {
         toggleNavbar: function () {
             this.showNavbar = !this.showNavbar;
-        },
-        invalidateToken: function() { this.token = "" }
+        }
     },
-    store: store
+    store
 });
 
 //bootstrap the application using the router on the app component

@@ -7,8 +7,11 @@ const state = {
 }
 
 const mutations = {
-  SET_TOKEN (state, token) {
-      state.token = token
+  SET_TOKEN(state, token) {
+    state.token = token
+  },
+  INVALIDATE_TOKEN(state) {
+    state.token = ""
   }
 }
 

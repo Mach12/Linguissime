@@ -1,7 +1,7 @@
 export default Vue.extend({
     template: "@",
     data: function() {return {
-        show: true,
+        show: false,
         links: {
             "Login" : "login",
             "Register" : "register",

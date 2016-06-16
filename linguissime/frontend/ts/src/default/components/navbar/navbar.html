@@ -7,7 +7,7 @@
             <a class="navbar-brand" v-link="{ path: '/' }">Linguissime</a>
 
             <ul class="nav navbar-nav pull-xs-right">
-                <template v-if="!$root.isTokenValid">
+                <template v-if="!isTokenValid">
                     <disconnected></disconnected>
                 </template>
                 <template v-else>
