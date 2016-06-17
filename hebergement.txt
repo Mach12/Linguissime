@@ -23,3 +23,12 @@ On contrôle qui peut accéder aux ressources AWS ( authentification) et quelles
 
 Le compte AWS offre accès à toutes les fonctionnalités, pour donner accès à des fonctionnalités au cas par cas il est possible de créer des utilisateurs.
 Les utilisateurs ne sont pas des comptes différents, ils font chacun partie du compte AWS.
+
+- EB CLI
+
+C’est une interface de ligne de commande pour Elastic Beanstalk qui fournit des commandes interactives qui simplifie la création, modification et la suppression d’un environnement à partir d’un repository local.
+
+eb init (dans le dossier symfony !)
+eb create
+eb deploy
+eb open
