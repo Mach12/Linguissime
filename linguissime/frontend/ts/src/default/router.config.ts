@@ -1,5 +1,6 @@
 Vue.use(VueRouter);
 
+import store            from './components/vuex/store'
 import {isTokenValid}   from './components/vuex/getters';
 
 import exercise         from './components/pages/exercise/exercise';
@@ -50,12 +51,16 @@ router.map({
         component: profile
     }
 });
+router.redirect({
+    '/': '/login'
+});
 router.beforeEach(function (transition) {
-    if (!transition.to.params['authpage'] && !isTokenValid(transition.to.store.state)) {
+    if (!transition.to['authpage'] && !isTokenValid(store.state)) {
         transition.redirect('/login');
     }
-    else if (transition.to.params['authpage'] && isTokenValid(transition.to.store.state)) {
+    else if (transition.to['authpage'] && isTokenValid(store.state)) {
         transition.redirect('/dashboard');
     }
+    transition.next();
 });
 export default router;

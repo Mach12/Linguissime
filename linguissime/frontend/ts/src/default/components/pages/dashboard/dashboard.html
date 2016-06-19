@@ -1,8 +1,10 @@
+<!--
 <div class="container">
     <div class="alert alert-success" role="alert">
         <strong>Well done!</strong> You successfully read this important alert message.
     </div>
 </div>
+-->
 
 <div class="container">
     <div class="row">
@@ -10,10 +12,10 @@
             <div class="card">
                 <div class="card-block text-xs-center">
                     <img src="http://static2.businessinsider.com/image/53284fbeeab8ea41214b5f42/goldman-solar-is-on-the-way-to-dominating-the-electricity-market-and-the-world-has-elon-musk-to-thank.jpg" width="150" height="150" class="img-circle">
-                    <h1 class="h5 m-t-1">Elon Musk</h1>
+                    <h1 class="h5 m-t-1">{{ready?username:'...'}}</h1>
 
-                    <p><a v-link="{ path: '/' }" class="link-primary">Voir le profil</a></p>
-                    <p><a v-link="{ path: '/' }" class="btn btn-primary mg-t-10">Completer mon profil</a></p>
+                    <p>Votre score: {{ready?data.points:'...'}}</p>
+                    <p><a v-link="{ name: 'profile' }" class="btn btn-primary mg-t-10">Completer mon profil</a></p>
                 </div>
             </div>
 
