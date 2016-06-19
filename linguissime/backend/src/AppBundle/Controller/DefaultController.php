@@ -96,26 +96,17 @@ class DefaultController extends Controller
      * @Method({"PUT"})
      */
     public function ChangePasswordAction(Request $request)
-    {
+    {   
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $password = new ChangePassword();
-       
-        $form = $this->createForm(ChangePasswordType::class, $password);
-        $form->handleRequest($request);
+        $tab = $request->request->get('change_password'); 
+              
+        $newPassword = $this->get('security.password_encoder')->encodePassword($user, $tab["newPassword"]);
+        $user->setPassword($newPassword);
 
-        if ($form->isValid()) {
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
 
-            $newPassword = $this->get('security.password_encoder')->encodePassword($user, $password->getNewPassword());
-            $user->setPassword($newPassword);
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
-        }
-
-        return new JsonResponse("Invalid Data", 400);
-
+        return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
     }
 
     /**
@@ -301,6 +292,7 @@ class DefaultController extends Controller
 
     public function registerAction(Request $request)
     {
+       // return new JsonResponse($request);
         $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);
@@ -318,6 +310,8 @@ class DefaultController extends Controller
             return new JsonResponse("Your account has been created with success");
         }
         return new JsonResponse("The data you have sent is not valid", 400);
+
+
     }
 
     /**

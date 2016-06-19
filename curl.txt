@@ -1,10 +1,10 @@
 LOGIN :
 
-curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/login_check -d _username=antoinegrandiere1@yahoo.com -d _password=antoineantoine1
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/login_check -d _username=antxoinegrandiere1@yahoo.com -d _password=antoineaxntoine1xxx
 
 REGISTER :
 
-curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=antoinegrandiere1@yahoo.com -d register[username]=antoinegrandiere1 -d register[plainPassword]=antoineantoine1
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=antxoinegrandiere1@yahoo.com -d register[username]=antoinegraxndiere1 -d register[plainPassword]=antoineaxntoine1
 
 DASHBOARD :
 
@@ -16,7 +16,7 @@ curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 CHANGE PASSWORD :
 
-curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=toto1toto -d change_password[newPassword]=newpassword
+curl -XPUT -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE0NjY0MjUyMDksImVtYWlsIjoiYW50eG9pbmVncmFuZGllcmUxQHlhaG9vLmNvbSIsImlhdCI6IjE0NjYzMzg4MDkifQ.FppyUHNQjiTJw95vU0BVd_4iYxwp7nbyD2z-jxJBVSG4_XcYi-t9Jc-XZ-FK-VWuEgvNUjJEqmbioacem3Ody3zLW3SWm0eEtFX7vbZTIYUs9yUSxZHA01LMinRzp8hmFIE_meFyjy_-t-ODn048Lu0zYCXdvgJXdiyCb8rRDABrcobZbLOv0q8ovNFdlcE61E6isb6aGIJr7Zt_i_BmFI-bVsG_SH-tVFpu-7fSksVzEqy72dIzON8r4rw4SVLbE5cKdn6INtgdeO25u5oBTCh48AqvH0sR9y5h3cPz5LlbJcNUPQbwW24jiy5Nj_mfkF7dK1x_-iM0sxEdgCirL3XDBHP7ZPlPQ706SV4_9oBjFpOmcMgY3k1yVMC1KO9ZJhD23cX8GBFjEZe0Yg0dGr9L_agHxmFff2qE4HI_KFFVyuC_LGn4w87XKur0SuvXWSjpJRukey-UDYPP017pyRVvorSart4UNcXuUG7Kg0WKKGqX5hYCuA9RyTBJu4wMG-7Raswuola-kTJfWXp_b-9CXfAZDdfZKB79lxZN0uq2ROElbUQBjJU80GiOtUru_P840L-SnQbrFXQPkSIxd8onhIOX6hsm0EaQ6U5vvdiN7CdYbdtSXBCmdhb-4WMstjIk7aPV_ULVwqvz72_b9PhJxMFlk6u9WuUsSinM1Ls' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=antoineaxntoine1 -d change_password[newPassword]=antoineaxntoine1xxx
 
 UPDATE STATS :
 
