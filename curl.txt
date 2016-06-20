@@ -24,7 +24,7 @@ curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 UPDATE STATS :
 
-curl -XPUT -H 'Authorization: Bearer ' localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/stats' -d name=verbes -d points=50
+curl -XPUT -H 'Authorization: Bearer token' localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/stats' -d name=verbes -d points=50
 
 SHOW STATS :
 
@@ -32,11 +32,11 @@ curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 UPDATE DATA (points + badges + level) :
 
-curl -XPUT -H 'Authorization: Bearer' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=300
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=300
 
 UPDATE ACCOUNT *
 
-curl -XPUT -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE0NjY1MDkwMTYsImVtYWlsIjoiYW50eG9pbmVncmFuZGllcmUxQHlhaG9vLmNvbSIsImlhdCI6IjE0NjY0MjI2MTYifQ.OWOm2rv_nn3rOf7IOu4LxtfcAhtcFAP0wji7Pt--ybvI8flWvHHvd6GyFgSQFHXEeAn_tkUlZvOZzEtjcj_BcDAb3U9Owfxe1IbClw5sPSnH-3KpQJ7JujpGvuGUySueNuqKGWiHCKw-bcRXDLABlk4OtQyJN-tJxCzKI59-g-Lk4GG6hQslQp0lbDX0eg3qALkH8BPa6A7nOj6I8ub8xu_A0036HFlICOn7URVIvE0M7eQfKwJhggNE_vpkyZ7Pd7Ar7BGe6SDJqGxXlUsd2HOhFZuZVJ9zKocE_-WjA6-ZyThS_8dUkBfQ5dmdsRM0J4VyNeEEePLqR4wdBcyi60gvSUxeryD24jPj6raUJXaai13iD_ddNT6ZY7CrQyeq1Xv8kElLoyVtIhp6ZcsERFTyrFYzeD_vQNoz6jNJS4EePyF94mG0GjJ8-ZlFMg6XryXau1O6m9tZDo6_QVA85z6UYEy2VUkvu5u5SNRx90RRYExgcDFA1IVblCLX0gTXw-FUF5wVFmEikTzoPRAdy_AXFUIAUUBrLVeJaofz--CgM0mb8eMVNorM9KOmf3CCyXHdUoj1IbJ1boGOeiabroHwSM2lbUc5QHqDRFLlObyTrY4r_R7sgZltoEHnkufhm6Ji4WjS4DJDqsw1RcXZktJv7mVgLGQotKklWpojSS0' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/account' -d change_account[description]=paris
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/account' -d change_account[description]=paris
 
 SEND INVITATION :
 

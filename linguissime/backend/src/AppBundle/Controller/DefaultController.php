@@ -62,13 +62,14 @@ class DefaultController extends Controller
         $exercisetype1->setType(1);
 
         $exercisetype2 = new ExerciseType();
-        $exercisetype2->setType(2);
+        $exercisetype2->setType(3);
         
         $exercise->getExerciseType()->add($exercisetype1);
         $exercise->getExerciseType()->add($exercisetype2);
 
+        $user->getExercise()->add($exercise);
+
         $em = $this->getDoctrine()->getManager();
-        $em->persist($exercise);
         $em->flush();
 
         die();
