@@ -154,8 +154,12 @@ class DefaultController extends Controller
      * @Method({"PUT"})
      */
     public function ChangeAccountAction(Request $request)
-    {
+    {   
         $user =  $this->get('security.token_storage')->getToken()->getUser();
+
+
+        var_dump($request->request->get('change_account[description]'));
+        die();
        
         $form = $this->createForm(ChangeAccountType::class, $user);
         $form->handleRequest($request);
@@ -168,7 +172,7 @@ class DefaultController extends Controller
             return new JsonResponse("Your account has been updated successfully");
         }
 
-        return new JsonResponse("error", 400);
+        return new JsonResponse("invalid data", 400);
     }
 
     /**

@@ -18,7 +18,7 @@ class ChangeAccountType extends AbstractType
             ->add('email',EmailType::class, array('label' => false))
             ->add('username',TextType::class, array('label' => false))
             ->add('name',TextType::class, array('label' => false, 'required' => false))
-            ->add('description',TextareaType::class, array('label' => false, 'required' => false))
+            ->add('description',TextareaType::class, array('label' => false, 'required' => false)
             ->add('sexe',ChoiceType::class, array(
                     'choices'  => array(
                         'Homme' => 'Homme',
@@ -30,6 +30,7 @@ class ChangeAccountType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'csrf_protection' => false,
             'data_class' => 'AppBundle\Entity\User',
         ));
     }

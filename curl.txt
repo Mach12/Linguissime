@@ -4,7 +4,7 @@ curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.p
 
 REGISTER :
 
-curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=antxoinegrandiere1@yahoo.com -d register[username]=antoinegraxndiere1 -d register[plainPassword]=antoineaxntoine1
+curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/register -d register[email]=antxxoinegrandiere1@yahoo.com -d register[username]=antoinxegraxndiere1 -d register[plainPassword]=antoineaxntoine1x
 
 CREATE EXERCISE :
 
@@ -20,7 +20,7 @@ curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 CHANGE PASSWORD :
 
-curl -XPUT -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE0NjY1MDE0MjcsImVtYWlsIjoiYW50eG9pbmVncmFuZGllcmUxQHlhaG9vLmNvbSIsImlhdCI6IjE0NjY0MTUwMjcifQ.LOLEx0R_LONGJvO6cmInP3AHMD64nXET2nCGU67SMya9NXO-78s-V81JN48k2JGXJdmntqYeZJ0a_3FpSZEwb2ppL3Sx6wq9IS2NK2swLgzgZWR3LnwQfl88GcC1O9foA1V5S2B57ZThjQl0LtzCYOt3wm6bYQJHW_dpEva4X0jCct3dgZxC0YhnlDE8xAhmOahI1bJ02xt4sLGEBlEeajXVEGJ-9ebf29L08trqFId9LxJ4spCboQRJSz8GbRhWDsGcj5IolO_dWklaIvtst6nyo11SylEiGNrphdVPev-Z2lk2kBhtRzKYb55FP5MzC80YyiSbkAv_7VK1XmrYLJzS8bCYYvGV0Wgi4KQUieW-xlD78-WIRPCGjq-fETDDL1bWzLtERFGlO3_0DAb-PZmKxOGalYMEHR4nisVcYFNVdHnvKoQiJRmfjWZFdkm7rlUC_Gq3q1c-tOPN_rRrSwqxPzUCztKXzrdTyqM0InbnRu7jXRZk9-typtuU9tJ7d8L9oL5iM_yAuUx3xb_5ACsiAwKrcgMcOoZbRkDJc8fjwhzfuB9NGa2qpVwLeBJRMAssoMgITsZgof9SlwiFPZLPrvykwPtK8xpZGhGcUATUQKXg2duOP4zpJ7p318EMR8ITJ5uPXg1PDcVdGKKVZabIbJ2UQFNV3vSVxkmeHmM' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=antoineaxntoine1 -d change_password[newPassword]=antoineaxntoine1xxx
+curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/password' -d change_password[oldPassword]=antoineaxntoine1 -d change_password[newPassword]=antoineaxntoine1xxx
 
 UPDATE STATS :
 
@@ -36,7 +36,7 @@ curl -XPUT -H 'Authorization: Bearer' 'http://localhost:8888/Linguissime/linguis
 
 UPDATE ACCOUNT *
 
-curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/account' -d change_account[description]=paris
+curl -XPUT -H 'Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE0NjY1MDkwMTYsImVtYWlsIjoiYW50eG9pbmVncmFuZGllcmUxQHlhaG9vLmNvbSIsImlhdCI6IjE0NjY0MjI2MTYifQ.OWOm2rv_nn3rOf7IOu4LxtfcAhtcFAP0wji7Pt--ybvI8flWvHHvd6GyFgSQFHXEeAn_tkUlZvOZzEtjcj_BcDAb3U9Owfxe1IbClw5sPSnH-3KpQJ7JujpGvuGUySueNuqKGWiHCKw-bcRXDLABlk4OtQyJN-tJxCzKI59-g-Lk4GG6hQslQp0lbDX0eg3qALkH8BPa6A7nOj6I8ub8xu_A0036HFlICOn7URVIvE0M7eQfKwJhggNE_vpkyZ7Pd7Ar7BGe6SDJqGxXlUsd2HOhFZuZVJ9zKocE_-WjA6-ZyThS_8dUkBfQ5dmdsRM0J4VyNeEEePLqR4wdBcyi60gvSUxeryD24jPj6raUJXaai13iD_ddNT6ZY7CrQyeq1Xv8kElLoyVtIhp6ZcsERFTyrFYzeD_vQNoz6jNJS4EePyF94mG0GjJ8-ZlFMg6XryXau1O6m9tZDo6_QVA85z6UYEy2VUkvu5u5SNRx90RRYExgcDFA1IVblCLX0gTXw-FUF5wVFmEikTzoPRAdy_AXFUIAUUBrLVeJaofz--CgM0mb8eMVNorM9KOmf3CCyXHdUoj1IbJ1boGOeiabroHwSM2lbUc5QHqDRFLlObyTrY4r_R7sgZltoEHnkufhm6Ji4WjS4DJDqsw1RcXZktJv7mVgLGQotKklWpojSS0' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/account' -d change_account[description]=paris
 
 SEND INVITATION :
 
