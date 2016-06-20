@@ -37,7 +37,7 @@ class ExerciseType
     private $exercise;
 
 
-    public function setExercise(\AppBundle\Entity\Exercise $exercise = null)
+    public function setExercise(Exercise $exercise = null)
     {
         $this->exercise = $exercise;
 
@@ -57,78 +57,6 @@ class ExerciseType
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set text
-     *
-     * @param string $text
-     *
-     * @return ExerciseType
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get text
-     *
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
-     * Set translation
-     *
-     * @param string $translation
-     *
-     * @return ExerciseType
-     */
-    public function setTranslation($translation)
-    {
-        $this->translation = $translation;
-
-        return $this;
-    }
-
-    /**
-     * Get translation
-     *
-     * @return string
-     */
-    public function getTranslation()
-    {
-        return $this->translation;
-    }
-
-    /**
-     * Set badTranslation
-     *
-     * @param string $badTranslation
-     *
-     * @return ExerciseType
-     */
-    public function setBadTranslation($badTranslation)
-    {
-        $this->badTranslation = $badTranslation;
-
-        return $this;
-    }
-
-    /**
-     * Get badTranslation
-     *
-     * @return string
-     */
-    public function getBadTranslation()
-    {
-        return $this->badTranslation;
     }
 
     /**

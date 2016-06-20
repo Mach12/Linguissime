@@ -134,7 +134,11 @@ class DefaultController extends Controller
     public function ChangePasswordAction(Request $request)
     {   
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $tab = $request->request->get('change_password'); 
+        $tab = $request->request->get('change_password');
+
+        if (!$tab["newPassword"]) { 
+             return new JsonResponse("invalid data", 400);
+         } 
               
         $newPassword = $this->get('security.password_encoder')->encodePassword($user, $tab["newPassword"]);
         $user->setPassword($newPassword);
