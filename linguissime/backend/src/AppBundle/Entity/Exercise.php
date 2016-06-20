@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Exercise
@@ -49,6 +50,12 @@ class Exercise
     private $duration;
 
     /**
+    * @ORM\OneToMany(targetEntity="ExerciseType", mappedBy="exercise", cascade={"persist"})
+    * @Algolia\Attribute
+    */
+    protected $exercisetype;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="description", type="text")
@@ -56,6 +63,27 @@ class Exercise
      */
     private $description;
 
+
+    public function __construct()
+    {
+        $this->exercisetype = new ArrayCollection();
+    }
+
+    public function addExerciseType(ExerciseType $exercisetype)
+    {   
+        $exercisetype->setExercise($this);
+        $this->exercisetype->add($exercisetype);
+    }
+
+    public function removeExerciseType(ExerciseType $exercisetype)
+    {
+        $this->exercisetype->removeElement($exercisetype);
+    }
+
+    public function getExerciseType()
+    {
+        return $this->exercisetype;
+    }
 
     /**
      * Get id
@@ -163,4 +191,3 @@ class Exercise
         return $this->description;
     }
 }
-

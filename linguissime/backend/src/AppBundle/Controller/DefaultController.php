@@ -50,7 +50,28 @@ class DefaultController extends Controller
     {   
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
+        // test
+
         $exercise = new Exercise();
+        $exercise->setName('test');
+        $exercise->setDifficulty('difficile');
+        $exercise->setDescription('ma description');
+        $exercise->setDuration(10);
+
+        $exercisetype1 = new ExerciseType();
+        $exercisetype1->setType(1);
+
+        $exercisetype2 = new ExerciseType();
+        $exercisetype2->setType(2);
+        
+        $exercise->getExerciseType()->add($exercisetype1);
+        $exercise->getExerciseType()->add($exercisetype2);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($exercise);
+        $em->flush();
+
+        die();
 
         return new JsonResponse($request);
     }

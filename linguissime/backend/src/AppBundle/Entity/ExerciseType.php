@@ -3,12 +3,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
 
 /**
  * ExerciseType
  *
  * @ORM\Table(name="exercise_type")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExerciseTypeRepository")
+ * @Algolia\Index(perEnvironment=false)
  */
 class ExerciseType
 {
@@ -22,26 +24,30 @@ class ExerciseType
     private $id;
 
     /**
-     * @var string
+     * @var integer
      *
-     * @ORM\Column(name="text", type="string", length=255)
+     * @ORM\Column(name="type", type="integer")
+     * @Algolia\Attribute
      */
-    private $text;
+    private $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="translation", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Exercise", inversedBy="exercisetype")
      */
-    private $translation;
+    private $exercise;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="bad_translation", type="string", length=255)
-     */
-    private $badTranslation;
 
+    public function setExercise(\AppBundle\Entity\Exercise $exercise = null)
+    {
+        $this->exercise = $exercise;
+
+        return $this;
+    }
+
+    public function getExercise()
+    {
+        return $this->exercise;
+    }
 
     /**
      * Get id
@@ -124,5 +130,28 @@ class ExerciseType
     {
         return $this->badTranslation;
     }
-}
 
+    /**
+     * Set type
+     *
+     * @param integer $type
+     *
+     * @return ExerciseType
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return integer
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+}
