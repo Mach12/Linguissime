@@ -24,6 +24,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use AppBundle\Entity\Exercise;
+use AppBundle\Entity\ExerciseType;
 
 class DefaultController extends Controller
 {
@@ -38,6 +40,19 @@ class DefaultController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('default/login.html.twig', array('last_username' => $lastUsername,'error' => $error));
+    }
+
+    /**
+     * @Route("/user/settings/exercise", name="create_exercise")
+     * @Method({"POST"})
+     */
+    public function ExerciseAction(Request $request)
+    {   
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $exercise = new Exercise();
+
+        return new JsonResponse($request);
     }
 
     /**
