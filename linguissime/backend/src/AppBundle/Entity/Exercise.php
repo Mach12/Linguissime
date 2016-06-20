@@ -63,10 +63,28 @@ class Exercise
      */
     private $description;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="exercise")
+     * @Algolia\Attribute
+     */
+    private $user;
+
 
     public function __construct()
     {
         $this->exercisetype = new ArrayCollection();
+    }
+
+    public function setUser(User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getUser()
+    {
+        return $this->user;
     }
 
     public function addExerciseType(ExerciseType $exercisetype)
