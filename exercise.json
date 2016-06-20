@@ -1,0 +1,36 @@
+// example 
+
+var jsondata = {
+	"name" : "Exercice test",
+	"description" : "blabla",
+	"duration" : 1,
+	"difficulty" : "Easy",
+	"exercisecomponent" : [{
+			"type" : "1",
+			"data" : [{
+					"text" : "Voiture",
+					"translation" : "Car",
+					"bad-translations" : [
+						"poot",
+						"sandvich",
+						"sasha"
+					]
+				}
+			]
+		}, {
+			"type" : "2",
+			"data" : [{
+					"text" : [
+						"My brother and I will meet ",
+						" the zoo and eat ice cream",
+						" together."
+					],
+					"blanks" : [
+						"at",
+						""
+					]
+				}
+			]
+		}
+	]
+};
