@@ -11,6 +11,7 @@ import statistics       from './components/pages/statistics/statistics';
 import badges           from './components/pages/badges/badges';
 import changepassword   from './components/pages/changepassword/changepassword';
 import profile          from './components/pages/profile/profile';
+import create           from './components/pages/create/create';
 
 var router = new VueRouter({
     history: false,
@@ -49,6 +50,10 @@ router.map({
     'profile': {
         name: 'profile',
         component: profile
+    },
+    'create': {
+        name: 'create',
+        component: create
     }
 });
 router.redirect({

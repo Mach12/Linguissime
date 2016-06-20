@@ -11,7 +11,8 @@ export default Vue.extend({
                 "Stats": "statistics",
                 "Badge list": "badges",
                 "Change password": "changepassword",
-                "Profile": "profile"
+                "Profile": "profile",
+                "Create exercise": "create"
             }
         }
     },

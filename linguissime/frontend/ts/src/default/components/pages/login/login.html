@@ -39,8 +39,13 @@
                         </div>
 
                         <fieldset class="form-group m-b-0">
-                            <button type="submit" :class="'btn btn-block btn-primary' + (trying?'disabled':'')" :disabled="trying">Connexion</button>
-                            <p class="m-b-0 p-t-1">Vous n'avez pas de compte ? <a v-link="{ path: '/' }" class="link-primary">Inscrivez-vous</a></p>
+                            <button type="submit" style="text-align: center" :class="'btn btn-block btn-primary' + (trying?'disabled':'')" :disabled="trying">
+                                Connexion
+                            </button>
+                            <p class="m-b-0 p-t-1">
+                                Vous n'avez pas de compte ?
+                                <a v-link="{ name: 'register' }" class="link-primary">Inscrivez-vous</a>
+                            </p>
                         </fieldset>
                     </form>
                 </div>

@@ -33,6 +33,7 @@ export default Vue.extend({
                         this.working = false
                         this.failed = false
                         this.success = true
+                        console.log(response)
                     }, function (response) {
                         this.setError("Erreur " + response.status + ": " + response.data)
                         this.working = false

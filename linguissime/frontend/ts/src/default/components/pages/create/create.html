@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="card card-shadow">
+        <select-translation v-if="type==1" :data="data"></select-translation>
+        <label>
+            Description
+            <input type="text" placeholder="Votre description ici" v-model="description"/>
+        </label>
+        <label>
+            Difficulté
+            <select v-model="difficulty">
+                <option v-for="item in difficultyScale" :value="item">
+                    {{$key}}
+                </option>
+            </select>
+        </label>
+        <label>
+            Durée
+            <input type="number" min="1" step="1" v-model="length"/>
+        </label>
+        <div style="margin: 3px" class="card card-shadow">
+            <div style="margin: 3px" class="card card-shadow" v-if="exercises.length == 0">
+                Encore aucun exercice!
+            </div>
+            <div style="margin: 3px" class="card card-shadow" v-for="(eindex, ex) in exercises">
+                Exercice {{eindex + 1}}<br/> Type: {{types[ex.type]}}
+                <div style="margin: 3px" class="card card-shadow" v-if="ex.data.length == 0">
+                    Exercice vide!
+                </div>
+                <div style="margin: 3px" class="card card-shadow" v-for="(qindex, question) in ex.data">
+                    <exercise-node :type="ex.type" :data.sync="question"></exercise-node>
+                </div>
+                <button @click="addQuestionToExercise(eindex)"><span class="fa fa-plus"></span><button>
+                <a @click="removeExercise(eindex)">Supprimer cet exercice</a>
+            </div>
+            Ajouter un exercice:
+            <select v-model="typeToCreate">
+                <option v-for="type in types" :value="$key">{{type}}</option>
+            </select>
+            <button @click="addExercise">Ajouter</button>
+            </div>
+        </div>
+    </div>
