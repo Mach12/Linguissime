@@ -78,6 +78,7 @@ class DefaultController extends Controller
         $exercise->setDifficulty('difficile');
         $exercise->setDescription('ma description');
         $exercise->setDuration(10);
+        $exercise->setUser($user);
 
         $exercise->setData('fake data json');
 
