@@ -43,6 +43,29 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/exercise/{name}", name="show_exercise")
+     * @Method({"GET"})
+     */
+    public function GetExerciseAction(Request $request, $name)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $exercise = $em->getRepository('AppBundle:Exercise')->findByName($name);
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+      //  $normalizer->setIgnoredAttributes(array('user','id'));
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+          return $object;
+        });
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+        $data = $serializer->serialize($exercise, 'json');
+
+        return new Response($data);
+    }
+
+    /**
      * @Route("/user/settings/exercise", name="create_exercise")
      * @Method({"POST"})
      */
@@ -50,31 +73,19 @@ class DefaultController extends Controller
     {   
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
-        // test
-
         $exercise = new Exercise();
         $exercise->setName('test');
         $exercise->setDifficulty('difficile');
         $exercise->setDescription('ma description');
         $exercise->setDuration(10);
 
-        $exercisetype1 = new ExerciseType();
-        $exercisetype1->setType(1);
-
-        $exercisetype2 = new ExerciseType();
-        $exercisetype2->setType(3);
-        
-        $exercise->getExerciseType()->add($exercisetype1);
-        $exercise->getExerciseType()->add($exercisetype2);
-
-        $user->getExercise()->add($exercise);
+        $exercise->setData('fake data json');
 
         $em = $this->getDoctrine()->getManager();
+        $em->persist($exercise);
         $em->flush();
 
-        die();
-
-        return new JsonResponse($request);
+        return new JsonResponse("Your exercise has been created successfully");
     }
 
     /**

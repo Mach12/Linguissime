@@ -5,12 +5,14 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Exercise
  *
  * @ORM\Table(name="exercise")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExerciseRepository")
+ * @UniqueEntity(fields={"name"})
  * @Algolia\Index(perEnvironment=false)
  */
 class Exercise
@@ -21,7 +23,6 @@ class Exercise
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Algolia\Attribute
      */
     private $id;
 
@@ -50,10 +51,10 @@ class Exercise
     private $duration;
 
     /**
-    * @ORM\OneToMany(targetEntity="ExerciseType", mappedBy="exercise", cascade={"persist"})
+    * @ORM\Column(name="data", type="json_array")
     * @Algolia\Attribute
     */
-    protected $exercisetype;
+    protected $data;
 
     /**
      * @var string
@@ -69,12 +70,6 @@ class Exercise
      */
     private $user;
 
-
-    public function __construct()
-    {
-        $this->exercisetype = new ArrayCollection();
-    }
-
     public function setUser(User $user = null)
     {
         $this->user = $user;
@@ -87,26 +82,11 @@ class Exercise
         return $this->user;
     }
 
-    public function addExerciseType(ExerciseType $exercisetype)
-    {   
-        $exercisetype->setExercise($this);
-        $this->exercisetype->add($exercisetype);
-    }
-
-    public function removeExerciseType(ExerciseType $exercisetype)
-    {
-        $this->exercisetype->removeElement($exercisetype);
-    }
-
-    public function getExerciseType()
-    {
-        return $this->exercisetype;
-    }
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -178,7 +158,7 @@ class Exercise
     /**
      * Get duration
      *
-     * @return int
+     * @return integer
      */
     public function getDuration()
     {
@@ -207,5 +187,29 @@ class Exercise
     public function getDescription()
     {
         return $this->description;
+    }
+
+    /**
+     * Set data
+     *
+     * @param array $data
+     *
+     * @return Exercise
+     */
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    /**
+     * Get data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
     }
 }
