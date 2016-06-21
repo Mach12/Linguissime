@@ -80,7 +80,9 @@ class DefaultController extends Controller
         $exercise->setDuration(10);
         $exercise->setUser($user);
 
-        $exercise->setData('fake data json');
+        $json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
+
+        $exercise->setData(json_decode($json));
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($exercise);
