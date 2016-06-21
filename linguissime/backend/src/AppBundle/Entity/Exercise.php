@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="exercise")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExerciseRepository")
- * @UniqueEntity(fields={"name"})
+ * @UniqueEntity("name")
  * @Algolia\Index(perEnvironment=false)
  */
 class Exercise
@@ -29,7 +29,7 @@ class Exercise
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Algolia\Attribute
      */
     private $name;

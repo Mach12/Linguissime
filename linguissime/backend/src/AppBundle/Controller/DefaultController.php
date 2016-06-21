@@ -74,7 +74,16 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $exercise = new Exercise();
-        $exercise->setName('test');
+        $exercise->setName('testx');
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($exercise);
+
+         if (count($errors) > 0) {
+            return new JsonResponse("the name is already taken");
+         }
+
+
         $exercise->setDifficulty('difficile');
         $exercise->setDescription('ma description');
         $exercise->setDuration(10);
