@@ -8,11 +8,11 @@ curl -X POST http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.p
 
 CREATE EXERCISE :
 
-curl -X POST -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/exercise' 
+curl -X POST -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/exercise' -d '{"name":"mon troisieme exercise","difficulty":"facile"}' 
 
 GET EXERCISE :
 
-curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/exercise/{name exercise}'
+curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/exercise/test'
 
 DASHBOARD :
 

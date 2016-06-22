@@ -74,7 +74,19 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $exercise = new Exercise();
-        $exercise->setName('testx');
+
+
+        $params = array();
+        $content = $request->getContent();
+
+        if (empty($content))
+        {
+            return new JsonResponse("Your data are empty", 400);
+        }
+
+        $params = json_decode($content);
+
+        $exercise->setName($params->name);
 
         $validator = $this->get('validator');
         $errors = $validator->validate($exercise);
@@ -83,15 +95,12 @@ class DefaultController extends Controller
             return new JsonResponse("the name is already taken");
          }
 
-
-        $exercise->setDifficulty('difficile');
+        $exercise->setDifficulty($params->difficulty);
         $exercise->setDescription('ma description');
         $exercise->setDuration(10);
         $exercise->setUser($user);
 
-        $json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-
-        $exercise->setData(json_decode($json));
+        $exercise->setData($params);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($exercise);
@@ -329,7 +338,7 @@ class DefaultController extends Controller
 
         $em->flush();
 
-        return new JsonResponse("Success");
+        return new JsonResponse("Your data have been updated with success !");
     }
 
     /**
