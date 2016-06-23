@@ -75,7 +75,6 @@ class DefaultController extends Controller
 
         $exercise = new Exercise();
 
-
         $params = array();
         $content = $request->getContent();
 
@@ -96,8 +95,8 @@ class DefaultController extends Controller
          }
 
         $exercise->setDifficulty($params->difficulty);
-        $exercise->setDescription('ma description');
-        $exercise->setDuration(10);
+        $exercise->setDescription($params->description);
+        $exercise->setDuration($params->duration);
         $exercise->setUser($user);
 
         $exercise->setData($params);
