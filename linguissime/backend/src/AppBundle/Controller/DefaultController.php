@@ -91,7 +91,7 @@ class DefaultController extends Controller
         $errors = $validator->validate($exercise);
 
          if (count($errors) > 0) {
-            return new JsonResponse("the name is already taken");
+            return new JsonResponse("the name is already taken", 400);
          }
 
         $exercise->setDifficulty($params->difficulty);
