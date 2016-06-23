@@ -1,13 +1,16 @@
 <label>
     Texte à traduire: 
     <input type="text" v-model="questionData.text" placeholder="Exemple: Pomme"/>
-</label>
+</label><br/>
 <label>
     Bonne traduction:
-    <input type="text" v-model="questionData.goodTranslation" placeholer="Exemple: Apple"/>
-</label> Mauvaises traductions:
-<template v-for="item in questionData.badTranslations">
+    <input type="text" v-model="questionData.goodTranslation" placeholder="Exemple: Apple"/>
+</label><br/> Mauvaises traductions:<br/>
+<template v-for="item in questionData.badTranslations" track-by="$index">
     <input type="text" v-model="item" placeholder="Exemple: Orange"/>
-    <button @click="removeBadTranslation($index)"><span class="fa fa-trash"></span></button>
+    <button @click="removeBadTranslation($index)" v-show="questionData.badTranslations.length>1">
+        <span class="fa fa-trash"></span>
+    </button>
+    <br/>
 </template>
 <button @click="addBadTranslation">Ajouter</button>

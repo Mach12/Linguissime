@@ -1,7 +1,7 @@
 var difficulty = {
-    easy: 0,
-    medium: 1,
-    hard: 2
+    0:"easy",
+    1:"medium",
+    2:"hard"
 }
 
 var exerciseTypes = {

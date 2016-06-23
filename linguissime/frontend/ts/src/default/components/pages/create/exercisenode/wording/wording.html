@@ -1,0 +1,10 @@
+<label>
+    Bon phrasé: 
+    <input type="text" v-model="questionData.goodSentence" placeholder="It's their dog."/>
+</label><br/> Mauvais phrasés:<br/>
+<template v-for="item in questionData.badSentences" track-by="$index">
+    <input type="text" v-model="item" placeholder="It's they're dog."/>
+    <button @click="removeBadSentence($index)" v-if="questionData.badSentences.length>1"><span class="fa fa-trash"></span></button>
+    <br/>
+</template>
+<button @click="addBadSentence"><span class="fa fa-plus"></span> Ajouter un mauvais phrasé</button>

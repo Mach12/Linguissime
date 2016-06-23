@@ -1,17 +1,24 @@
 export default Vue.extend({
     template: "@",
-    props: ['questionData'],
+    props: {
+        questionData: {
+            required: true,
+            type: Object
+        }
+    },
     methods: {
         addBadTranslation() {
             this.questionData.badTranslations.push("")
         },
         removeBadTranslation(index:number) {
-            this.questionData.badTranslations.splice(index)
+            this.questionData.badTranslations.splice(index,1)
         }
     },
-    ready: () => {
-        this.questionData.text = ""
-        this.questionData.goodTranslation = ""
-        this.questionData.badTranslations = []
+    ready: function() {
+        this.questionData = {
+            text: "",
+            goodTranslation: "",
+            badTranslations: [""]
+        }
     }
 })

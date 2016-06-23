@@ -2,41 +2,49 @@
     <div class="card card-shadow">
         <select-translation v-if="type==1" :data="data"></select-translation>
         <label>
+            Titre
+            <input type="text" placeholder="Nommez cet exercice" v-model="name"/>
+        </label><br/>
+        <label>
             Description
             <input type="text" placeholder="Votre description ici" v-model="description"/>
-        </label>
+        </label><br/>
         <label>
             Difficulté
             <select v-model="difficulty">
-                <option v-for="item in difficultyScale" :value="item">
-                    {{$key}}
+                <option v-for="item in difficultyScale" :value="$key">
+                    {{item}}
                 </option>
             </select>
-        </label>
+        </label><br/>
         <label>
             Durée
             <input type="number" min="1" step="1" v-model="length"/>
-        </label>
-        <div style="margin: 3px" class="card card-shadow">
-            <div style="margin: 3px" class="card card-shadow" v-if="exercises.length == 0">
+        </label><br/>
+        <div style="margin: 3px" class="createbox">
+            <div style="margin: 3px" class="createbox" v-if="exercises.length == 0">
                 Encore aucun exercice!
             </div>
-            <div style="margin: 3px" class="card card-shadow" v-for="(eindex, ex) in exercises">
-                Exercice {{eindex + 1}}<br/> Type: {{types[ex.type]}}
-                <div style="margin: 3px" class="card card-shadow" v-if="ex.data.length == 0">
+            <div style="margin: 3px" class="createbox" v-for="(eindex, ex) in exercises" track-by="$index">
+                Type: {{types[ex.type]}}
+                <div style="margin: 3px" class="createbox" v-if="ex.data.length == 0">
                     Exercice vide!
                 </div>
-                <div style="margin: 3px" class="card card-shadow" v-for="(qindex, question) in ex.data">
-                    <exercise-node :type="ex.type" :data.sync="question"></exercise-node>
+                <div style="margin: 3px" class="createbox" v-for="(qindex, question) in ex.data" track-by="$index">
+                    <exercise-node :type="ex.type" :data.sync="question"></exercise-node><br/>
+                    <button @click="removeQuestionFromExercise(eindex, qindex)"><span class="fa fa-trash"></span>Supprimer cette question</button>
                 </div>
-                <button @click="addQuestionToExercise(eindex)"><span class="fa fa-plus"></span><button>
-                <a @click="removeExercise(eindex)">Supprimer cet exercice</a>
+                <button @click="addQuestionToExercise(eindex)"><span class="fa fa-plus"></span>Ajouter une question</button><br/>
+                <button @click="removeExercise(eindex)"><span class="fa fa-trash"></span>Supprimer cet exercice</button>
             </div>
             Ajouter un exercice:
             <select v-model="typeToCreate">
                 <option v-for="type in types" :value="$key">{{type}}</option>
             </select>
-            <button @click="addExercise">Ajouter</button>
-            </div>
+            <button @click="addExercise"><span class="fa fa-plus"></span> Ajouter</button>
         </div>
+        <!--
+        Dump:<br/> {{JSONDump | json}}
+        -->
     </div>
+</div>
