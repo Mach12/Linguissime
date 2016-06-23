@@ -74,24 +74,32 @@ class DefaultController extends Controller
         $user = $this->get('security.token_storage')->getToken()->getUser();
 
         $exercise = new Exercise();
-        $exercise->setName('testx');
+
+        $params = array();
+        $content = $request->getContent();
+
+        if (empty($content))
+        {
+            return new JsonResponse("Your data are empty", 400);
+        }
+
+        $params = json_decode($content);
+
+        $exercise->setName($params->name);
 
         $validator = $this->get('validator');
         $errors = $validator->validate($exercise);
 
          if (count($errors) > 0) {
-            return new JsonResponse("the name is already taken");
+            return new JsonResponse("the name is already taken", 400);
          }
 
-
-        $exercise->setDifficulty('difficile');
-        $exercise->setDescription('ma description');
-        $exercise->setDuration(10);
+        $exercise->setDifficulty($params->difficulty);
+        $exercise->setDescription($params->description);
+        $exercise->setDuration($params->duration);
         $exercise->setUser($user);
 
-        $json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-
-        $exercise->setData(json_decode($json));
+        $exercise->setData($params);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($exercise);
@@ -134,7 +142,7 @@ class DefaultController extends Controller
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
 
         if ($listBadgeAchivement == null) {
-            return new JsonResponse("Aucun badge");
+            return new JsonResponse("Aucun badge", 400);
         }
 
         $encoder = new JsonEncoder();
@@ -170,7 +178,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
+        return new JsonResponse(array('success' => "Password change with success"));
     }
 
     /**
@@ -329,7 +337,7 @@ class DefaultController extends Controller
 
         $em->flush();
 
-        return new JsonResponse("Success");
+        return new JsonResponse("Your data have been updated with success !");
     }
 
     /**
@@ -355,7 +363,7 @@ class DefaultController extends Controller
 
             $this->get('mailer')->send($message);  
 
-        return new JsonResponse("votre message a bien été envoyé");
+        return new JsonResponse("Your message has been sent");
     }
 
     public function registerAction(Request $request)
@@ -401,6 +409,6 @@ class DefaultController extends Controller
 
             $this->get('mailer')->send($message);
 
-        return new JsonResponse("votre message a bien été envoyé");
+        return new JsonResponse("Your message has been sent");
     }
 }

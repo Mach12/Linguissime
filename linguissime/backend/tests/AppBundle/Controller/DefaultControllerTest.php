@@ -136,7 +136,7 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
-       
+       /*
 
         $client->request('PUT', '/api/settings/data', $data);
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -147,7 +147,7 @@ class DefaultControllerTest extends WebTestCase
             'test.png',
             'image/png',
             123
-        );
+     
 
         $client = static::createClient();
         $client->setServerParameters([
@@ -157,6 +157,8 @@ class DefaultControllerTest extends WebTestCase
 
         $client->request('PUT', '/api/user/settings/image', array('photo' => $photo));
         $this->assertTrue($client->getResponse()->isSuccessful());
+
+           ); */
         
 
         $client = static::createClient();
@@ -173,7 +175,33 @@ class DefaultControllerTest extends WebTestCase
 
         $this->assertEquals(1, $mailCollector->getMessageCount());
 
-        
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
 
+        $client->request(
+            'POST',
+            '/api/user/settings/exercise',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"name":"testinzerczxxrg","difficulty":"facile", "duration":99, "description":"description from unit test"}'
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertNotEmpty($client->getResponse()->getContent());
+
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->request('GET', '/api/exercise/test');
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertNotEmpty($client->getResponse()->getContent());
     }
 }
