@@ -142,7 +142,7 @@ class DefaultController extends Controller
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
 
         if ($listBadgeAchivement == null) {
-            return new JsonResponse("Aucun badge");
+            return new JsonResponse("Aucun badge", 400);
         }
 
         $encoder = new JsonEncoder();
@@ -178,7 +178,7 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
+        return new JsonResponse(array('success' => "Password change with success"));
     }
 
     /**
@@ -363,7 +363,7 @@ class DefaultController extends Controller
 
             $this->get('mailer')->send($message);  
 
-        return new JsonResponse("votre message a bien été envoyé");
+        return new JsonResponse("Your message has been sent");
     }
 
     public function registerAction(Request $request)
@@ -409,6 +409,6 @@ class DefaultController extends Controller
 
             $this->get('mailer')->send($message);
 
-        return new JsonResponse("votre message a bien été envoyé");
+        return new JsonResponse("Your message has been sent");
     }
 }
