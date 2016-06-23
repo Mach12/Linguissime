@@ -187,8 +187,19 @@ class DefaultControllerTest extends WebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"name":"testing","difficulty":"facile", "duration":99, "description":"description from unit test"}'
+            '{"name":"testinzerczxxrg","difficulty":"facile", "duration":99, "description":"description from unit test"}'
         );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertNotEmpty($client->getResponse()->getContent());
+
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+        $client->request('GET', '/api/exercise/test');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertNotEmpty($client->getResponse()->getContent());
