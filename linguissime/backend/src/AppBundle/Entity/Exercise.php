@@ -43,9 +43,8 @@ class Exercise
     private $slug;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="difficulty", type="string", length=255)
+     * @ORM\Column(name="difficulty", type="integer")
      * @Algolia\Attribute
      */
     private $difficulty;
