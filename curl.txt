@@ -44,4 +44,4 @@ curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 SEND INVITATION :
 
-curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/invitation'
+curl -X POST -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/invitation' -d email=agrandiere@intechinfo.fr

@@ -399,19 +399,21 @@ class DefaultController extends Controller
 
     /**
      * @Route("/invitation", name="invitation")
-     * @Method({"GET"})
+     * @Method({"POST"})
      */
-    public function invitationAction()
+    public function invitationAction(Request $request)
     {   
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
         $fullname = $user->getUserName() . " " . $user->getName();
 
+        $email = $request->request->get('email');
+
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject("Rejoindre Linguissime")
             ->setFrom("agrandiere@intechinfo.fr")
-            ->setTo("agrandiere@intechinfo.fr")
+            ->setTo($email)
             ->setBody("Bonjour, Vous avez reçu une invitation de la part de " . $fullname . " pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
 
             $this->get('mailer')->send($message);
