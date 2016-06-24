@@ -243,7 +243,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/settings/stats", name="update_stats")
+     * @Route("/user/settings/stats", name="update_stats")
      * @Method({"PUT"})
      */
     public function updateStatsAction(Request $request)
