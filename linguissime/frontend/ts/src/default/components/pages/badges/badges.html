@@ -7,82 +7,14 @@
             <hr>
         </div>
 
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text" style="color: green;"> 10 juillet 2015</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="card text-xs-center">
-                <div class="card-block">
-                    <i class="fa fa-search card-icon" aria-hidden="true"></i>
-                    <h6 class="card-subtitle m-b-5 font-weight-bold">Inviter un ami</h6>
-                    <p class="card-text">500 points</p>
+        <div v-if="!loading">
+            <div class="col-md-3" v-for="badge in badgeData">
+                <div class="card text-xs-center">
+                    <div class="card-block">
+                        <i class="fa fa-search card-icon" aria-hidden="true"></i>
+                        <h6 class="card-subtitle m-b-5 font-weight-bold">{{badge.badge.name}}</h6>
+                        <p class="card-text">{{badge.badge.points}} points</p>
+                    </div>
                 </div>
             </div>
         </div>
