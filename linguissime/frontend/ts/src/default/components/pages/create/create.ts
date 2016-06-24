@@ -1,6 +1,8 @@
 import {difficulty as difficultyScale, exerciseTypes as types} from '../../../utilities/util'
 import exerciseNode from './exercisenode/exercisenode'
 
+import {getTokenHeader} from '../../vuex/getters'
+
 export default Vue.extend({
     template: "@",
     data: () => {
@@ -12,35 +14,69 @@ export default Vue.extend({
             exercises: [],
             typeToCreate: 1,
             difficultyScale,
-            types
+            types,
+            sending: false,
+            failed: false,
+            showMessage: false,
+            message: "",
+            showDump: false
         }
     },
     computed: {
-        JSONDump () {
+        JSONDump() {
             return {
                 name: this.name,
                 description: this.description,
                 difficulty: this.difficulty,
-                length: this.length,
+                duration: this.length,
                 exercises: this.exercises
             }
         }
     },
     methods: {
         addExercise() {
-            this.exercises.push({type: this.typeToCreate, data: []})
+            this.exercises.push({ type: this.typeToCreate, data: [] })
         },
-        removeExercise(index:number) {
+        removeExercise(index: number) {
             this.exercises.splice(index, 1)
         },
-        addQuestionToExercise(index:number) {
+        addQuestionToExercise(index: number) {
             this.exercises[index].data.push(<any>{})
         },
-        removeQuestionFromExercise(eindex:number, qindex:number) {
+        removeQuestionFromExercise(eindex: number, qindex: number) {
             this.exercises[eindex].data.splice(qindex, 1)
+        },
+        submit() {
+            this.sending = true
+            this.$http.post((this.$store.state.serverURI + '/api/user/settings/exercise'),
+                this.JSONDump,
+                { emulateJSON: false, headers: { 'Authorization': this.getTokenHeader } })
+                .then(function (response) {
+                    this.sending = false
+                    this.data = response.data
+                }, function (response) {
+                    this.sending = false
+                    if (response.status = 401) {
+                        this.$store.dispatch('INVALIDATE_TOKEN')
+                        this.$router.go({ name: 'login' })
+                        this.showMessage = true
+                        this.failed = true
+                        this.message = "Exercice créé avec succès!"
+                    }
+                    else {
+                        this.failed = true
+                        this.showMessage = true
+                        this.message = "Erreur " + response.status + ' : ' + JSON.stringify(response.data)
+                    }
+                })
         }
     },
     components: {
         exerciseNode
+    },
+    vuex: {
+        getters: {
+            getTokenHeader
+        }
     }
 })

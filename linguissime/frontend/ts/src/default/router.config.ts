@@ -12,12 +12,17 @@ import badges           from './components/pages/badges/badges';
 import changepassword   from './components/pages/changepassword/changepassword';
 import profile          from './components/pages/profile/profile';
 import create           from './components/pages/create/create';
+import notfound         from './components/pages/notfound/notfound'
 
 var router = new VueRouter({
     history: false,
 });
 router.map({
-    'exercise': {
+    '*': {
+        name: 'notfound',
+        component: notfound
+    },
+    'exercise/:slug': {
         name: 'exercise',
         component: exercise
     },

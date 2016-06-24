@@ -63,8 +63,8 @@ aws:
     version: latest
     region: eu-west-1
     credentials:
-        key: xx
-        secret: xx
+        key: AKIAI7BHRDBANOHVS7HA
+        secret: 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
     S3:
         version: latest
 
