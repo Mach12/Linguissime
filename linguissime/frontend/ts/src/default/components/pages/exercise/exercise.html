@@ -1,1 +1,6 @@
-Hi
+<div v-show="loaded">
+    {{exerciseData | json}}
+</div>
+<div v-else>
+    Chargement de l'exercice...
+</div>

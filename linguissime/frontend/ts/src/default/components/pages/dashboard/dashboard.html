@@ -61,7 +61,7 @@
 
                 <div class="card-block">
 
-                    <form>
+                    <form @submit.prevent="sendMail">
                         <fieldset class="mg-t-15 row">
                             <div class="col-md-6 mg-b-15">
                                 <p class="text-gray-dark s-13 mg-t-5">Inviter vos amis ou contacts pour gagner des points</p>
@@ -70,11 +70,14 @@
 
                             <div class="col-md-6">
                                 <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="E-mail" style="padding:7px;">
+                                    <input type="text" class="form-control" placeholder="E-mail" style="padding:7px;" v-model="inviteMail" />
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="button"><i class="fa fa-envelope" aria-hidden="true"></i></button>
+                                        <button class="btn btn-primary" type="button">
+                                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                                        </button>
                                     </span>
                                 </div>
+                                <span :class="'emailoutput' + (emailSuccess?'success':'error')">{{emailOutput}}</span>
                             </div>
                         </fieldset>
                     </form>

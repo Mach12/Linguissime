@@ -5,12 +5,35 @@ export default Vue.extend({
     data: function () {
         return {
             ready: false,
-            data: {}
+            data: {},
+            emailOutput: "",
+            emailSuccess: true,
+            inviteMail: ""
         }
     },
     computed: {
         username: function () {
             return this.data.name || this.data.userName || 'Anon'
+        }
+    },
+    methods: {
+        sendMail() {
+            this.$http.post((this.$store.state.serverURI + '/api/invitation'),
+                { 'email': this.inviteMail },
+                { emulateJSON: true, headers: { 'Authorization': this.getTokenHeader } })
+                .then(function (response) {
+                    this.emailSuccess = true
+                    this.emailOutput = response.data
+                }, function (response) {
+                    if (response.status = 401) {
+                        this.$store.dispatch('INVALIDATE_TOKEN')
+                        this.$router.go({ name: 'login' })
+                    }
+                    else {
+                        this.emailSuccess = false
+                        this.emailOutput = response.data
+                    }
+                })
         }
     },
     ready: function () {
