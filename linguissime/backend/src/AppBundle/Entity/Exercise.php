@@ -37,6 +37,14 @@ class Exercise
     /**
      * @var string
      *
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
+     * @Algolia\Attribute
+     */
+    private $slug;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="difficulty", type="string", length=255)
      * @Algolia\Attribute
      */
@@ -211,5 +219,29 @@ class Exercise
     public function getData()
     {
         return $this->data;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Exercise
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

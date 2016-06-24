@@ -43,13 +43,17 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/exercise/{name}", name="show_exercise")
+     * @Route("/exercise/{slug}", name="show_exercise")
      * @Method({"GET"})
      */
-    public function GetExerciseAction(Request $request, $name)
+    public function GetExerciseAction(Request $request, $slug)
     {   
         $em = $this->getDoctrine()->getManager();
-        $exercise = $em->getRepository('AppBundle:Exercise')->findByName($name);
+        $exercise = $em->getRepository('AppBundle:Exercise')->findBySlug($slug);
+
+        if (!$exercise) {
+            return new JsonResponse("Exercise not found", 400);
+        }
 
         $encoder = new JsonEncoder();
         $normalizer = new ObjectNormalizer();
@@ -93,6 +97,10 @@ class DefaultController extends Controller
             return new JsonResponse("the name is already taken", 400);
          }
 
+
+        $slug = $this->get('app.slugger')->slugify($params->name);
+
+        $exercise->setSlug($slug);
         $exercise->setDifficulty($params->difficulty);
         $exercise->setDescription($params->description);
         $exercise->setDuration($params->duration);

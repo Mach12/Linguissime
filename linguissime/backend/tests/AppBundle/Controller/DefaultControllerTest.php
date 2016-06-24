@@ -181,6 +181,8 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
+
+
         $client->request(
             'POST',
             '/api/user/settings/exercise',
@@ -188,7 +190,7 @@ class DefaultControllerTest extends WebTestCase
             array(),
             array('CONTENT_TYPE' => 'application/json'),
             '{
-    "name": "Un exercice",
+    "name": "test test",
     "description": "Une description",
     "difficulty": "1",
     "duration": "5",
@@ -233,10 +235,5 @@ class DefaultControllerTest extends WebTestCase
             'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             'CONTENT_TYPE' => 'application/json'
         ]);
-
-        $client->request('GET', '/api/exercise/test');
-
-        $this->assertTrue($client->getResponse()->isSuccessful());
-        $this->assertNotEmpty($client->getResponse()->getContent());
     }
 }
