@@ -281,7 +281,7 @@ class DefaultController extends Controller
         $exercices = $repository->findByUser($user);
 
         if ($exercices == null) {
-            return new JsonResponse("Aucun exercice fait");
+            return new JsonResponse("[]");
         }
 
         $encoder = new JsonEncoder();
