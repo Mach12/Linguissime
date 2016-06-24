@@ -187,7 +187,42 @@ class DefaultControllerTest extends WebTestCase
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"name":"testinzerczxxrg","difficulty":"facile", "duration":99, "description":"description from unit test"}'
+            '{
+    "name": "Un exercice",
+    "description": "Une description",
+    "difficulty": "1",
+    "duration": "5",
+    "exercises": [{
+        "type": 1,
+        "data": [{
+            "text": "Pomme",
+            "goodTranslation": "Apple",
+            "badTranslations": ["Orange", "iPhone", "Steve Jobs"]
+        }, {
+            "text": "Voiture",
+            "goodTranslation": "Car",
+            "badTranslations": ["Chrysler", "Cars"]
+        }]
+    }, {
+        "type": "2",
+        "data": [{
+            "text": ["Heavy is ", "-making ", "!!"],
+            "blanks": ["wish", "fairy"]
+        }, {
+            "text": ["a", "c"],
+            "blanks": ["b"]
+        }, {
+            "text": ["o shit", "here comes", "!"],
+            "blanks": ["waddup", "dat boi"]
+        }]
+    }, {
+        "type": "3",
+        "data": [{
+            "goodSentence": "Theyre here",
+            "badSentences": ["Their here", "There here", "Zair hear"]
+        }]
+    }]
+}'
         );
 
         $this->assertTrue($client->getResponse()->isSuccessful());

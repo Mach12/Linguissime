@@ -78,8 +78,7 @@ class DefaultController extends Controller
         $params = array();
         $content = $request->getContent();
 
-        if (empty($content))
-        {
+        if (empty($content)) {
             return new JsonResponse("Your data are empty", 400);
         }
 
