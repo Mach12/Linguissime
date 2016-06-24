@@ -21,36 +21,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Apprendre l'anglais</td>
-                        <td>06/02/2016</td>
-                        <td style="color:green">+56 points</td>
+                    <tr v-if="loading">
+                        <td colspan="3">Chargement...</td>
                     </tr>
-                    <tr>
-                        <td>Chinois avancé</td>
-                        <td>02/12/2015</td>
-                        <td style="color:green">+36 points</td>
-                    </tr>
-                    <tr>
-                        <td>L'anglais pour les nuls</td>
-                        <td>06/09/2015</td>
-                        <td style="color: red">+16 points</td>
-                    </tr>
-                    <tr>
-                        <td>Apprendre l'anglais</td>
-                        <td>09/02/2015</td>
-                        <td style="color: orange">+25 points</td>
-                    </tr>
-                    <tr>
-                        <td>L'espace</td>
-                        <td>09/02/2014</td>
-                        <td style="color: green">+36 points</td>
-                    </tr>
-                    <tr>
-                        <td>L'espagnol</td>
-                        <td>02/01/2014</td>
-                        <td style="color: orange">+29 points</td>
-                    </tr>
+                    <template v-else>
+                        <tr v-if="stats.length == 0">
+                            <td colspan="3">Historique vide.</td>
+                        </tr>
+                        <tr v-for="stat in stats">
+                            <td>{{stat.name}}</td>
+                            <td>(date)</td>
+                            <td :style="'color:'+colorFromScore(stat.points)">+{{stat.points}} points</td>
+                        </tr>
+                    </template>
                 </tbody>
             </table>
         </div>
