@@ -57,7 +57,7 @@ class DefaultController extends Controller
 
         $encoder = new JsonEncoder();
         $normalizer = new ObjectNormalizer();
-      //  $normalizer->setIgnoredAttributes(array('user','id'));
+        $normalizer->setIgnoredAttributes(array('user','id'));
 
         $normalizer->setCircularReferenceHandler(function ($object) {
           return $object;
