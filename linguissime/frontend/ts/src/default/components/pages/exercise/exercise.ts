@@ -17,7 +17,7 @@ export default Vue.extend({
                 this.exerciseData = response.data[0]
                 this.loaded = true
             }, function (response) {
-                if (response.status = 401) {
+                if (response.status == 401) {
                     this.$store.dispatch('INVALIDATE_TOKEN')
                     this.$router.go({ name: 'login' })
                 }

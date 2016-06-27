@@ -25,7 +25,7 @@ export default Vue.extend({
                     this.emailSuccess = true
                     this.emailOutput = response.data
                 }, function (response) {
-                    if (response.status = 401) {
+                    if (response.status == 401) {
                         this.$store.dispatch('INVALIDATE_TOKEN')
                         this.$router.go({ name: 'login' })
                     }

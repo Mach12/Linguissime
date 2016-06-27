@@ -56,7 +56,7 @@ export default Vue.extend({
                     this.data = response.data
                 }, function (response) {
                     this.sending = false
-                    if (response.status = 401) {
+                    if (response.status == 401) {
                         this.$store.dispatch('INVALIDATE_TOKEN')
                         this.$router.go({ name: 'login' })
                         this.showMessage = true
