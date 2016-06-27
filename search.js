@@ -4,10 +4,19 @@
 
 // config
 
+<script src="//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+
+
+<script>
+
+<input type="text" id="search"/>
+<div id="hits"></div>
+<div id="pagination"></div>
+
 var search = instantsearch({
-  appId: 'xx',
-  apiKey: 'xx',
-  indexName: 'Indexname',
+  appId: 'DWDOUHY22N',
+  apiKey: 'be8495506adaf17411ef2e6bf33b9b84',
+  indexName: 'Exercise',
   urlSync: true
 });
 
@@ -16,8 +25,8 @@ var search = instantsearch({
 
 search.addWidget(
     instantsearch.widgets.searchBox({
-        container: '#search-box',
-        placeholder: 'Search for products...'
+        container: '#search',
+        placeholder: 'Search...'
       })
 );
 
@@ -25,7 +34,7 @@ search.addWidget(
 
 search.addWidget(
     instantsearch.widgets.hits({
-        container: '#hits-container',
+        container: '#hits',
         templates: {
             item: 'Hit {{objectID}}: FIXME'
         }
@@ -36,11 +45,12 @@ search.addWidget(
 
 search.addWidget(
     instantsearch.widgets.pagination({
-        container: '#pagination-container'
+        container: '#pagination'
     })
 );
 
 search.start();
+
 
 
 
