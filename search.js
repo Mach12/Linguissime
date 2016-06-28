@@ -1,74 +1,56 @@
 
 // instantsearch.js - Algolia
 
+
+// config
+
+<script src="//cdn.jsdelivr.net/instantsearch.js/1/instantsearch.min.js"></script>
+
+
+<script>
+
+<input type="text" id="search"/>
+<div id="hits"></div>
+<div id="pagination"></div>
+
 var search = instantsearch({
-  appId: 'xx',
-  apiKey: 'xx',
-  indexName: 'Indexname',
+  appId: 'DWDOUHY22N',
+  apiKey: 'be8495506adaf17411ef2e6bf33b9b84',
+  indexName: 'Exercise',
   urlSync: true
 });
 
 
-search.addWidget(
-  instantsearch.widgets.hitsPerPageSelector({
-    container: '#hits-per-page-selector',
-    cssClasses: {
-      root: 'form-control'
-    },
-    options: [
-      {value: 6, label: '6 per page'},
-      {value: 12, label: '12 per page'},
-      {value: 24, label: '24 per page'}
-    ]
-  })
-);
-
+// search input
 
 search.addWidget(
     instantsearch.widgets.searchBox({
-      container: '#search-input'
+        container: '#search',
+        placeholder: 'Search...'
+      })
+);
+
+// results display in a container
+
+search.addWidget(
+    instantsearch.widgets.hits({
+        container: '#hits',
+        templates: {
+            item: 'Hit {{objectID}}: FIXME'
+        }
     })
-  );
-
-search.addWidget(
-  instantsearch.widgets.hits({
-    container: '.hit',
-    templates: {
-      empty: 'No results',
-      item: 'xxxx'
-    },
-    hitsPerPage: 6
-  })
 );
 
-search.addWidget(
-  instantsearch.widgets.pagination({
-    container: '#pagination-container',
-    maxPages: 20,
-    scrollTo: false,
-
-  })
-);
-
+// pagination
 
 search.addWidget(
-  instantsearch.widgets.refinementList({
-    container: '#categories',
-    attributeName: 'category',
-    operator: 'or',
-    cssClasses: {
-      count: 'hidden',
-      active: 'active'
-    },
-    limit: 10,
-
-    templates: {
-      header: 'Catégories'
-    }
-  })
+    instantsearch.widgets.pagination({
+        container: '#pagination'
+    })
 );
 
 search.start();
+
 
 
 
