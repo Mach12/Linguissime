@@ -1,3 +1,8 @@
 export default Vue.extend({
-    template: "@"
+    template: "@",
+    computed: {
+        errorMessage() {
+            return "Not found.";
+        }
+    }
 })

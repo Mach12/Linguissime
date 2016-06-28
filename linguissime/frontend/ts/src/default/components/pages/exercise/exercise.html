@@ -1,6 +1,29 @@
+<div class="alert alert-danger" v-show="failed">{{errorMessage}}</div>
+
 <div v-show="loaded">
+    <!--
     {{exerciseData | json}}
+    -->
+
+    <h2>{{exerciseData.name}}</h2>
+    <span style="margin-left: 7px">Exercice {{difficulty | lowercase}} de {{exerciseData.duration}} minutes.</span>
+    <br/> {{exerciseData.description}}
+
+    <template v-for="e in exerciseData.exercises" v-if="$index == currentEIndex">
+        <div v-for="q in e.data" v-if="$index == currentQIndex" class="exercisebox">
+            <!--
+            Dump: {{q | json}} <br/>
+            -->
+            <exercise-node :type="e.type" :data="q"></exercise-node>
+        </div>
+    </template>
+
+    <div class="exercisebox" v-if="endReached">
+        Bravo, vous avez terminé l'exercice!'<br/>
+        Votre score final est de {{displayScore?score:'...'}}.
+    </div>
 </div>
-<div v-else>
+
+<div v-show="!loaded && !failed">
     Chargement de l'exercice...
 </div>

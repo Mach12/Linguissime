@@ -1,0 +1,7 @@
+<u>Traduisez le mot suivant</u>:
+<span style="padding: 3px; margin: 3px; border: 1px solid grey; border-radius: 3px">
+    {{questionData.text}}
+</span><br/>
+<button v-for="option in shuffledOptions" id="option{{$index}}" class="button" style="margin-top: 10px" @click="checkWord(option, $index)">
+    {{option}}
+</button>

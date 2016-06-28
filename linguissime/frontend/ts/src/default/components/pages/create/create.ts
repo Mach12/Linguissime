@@ -10,7 +10,7 @@ export default Vue.extend({
             name: "",
             description: "",
             difficulty: 0,
-            length: 1,
+            duration: 1,
             exercises: [],
             typeToCreate: 1,
             difficultyScale,
@@ -28,7 +28,7 @@ export default Vue.extend({
                 name: this.name,
                 description: this.description,
                 difficulty: this.difficulty,
-                duration: this.length,
+                duration: this.duration,
                 exercises: this.exercises
             }
         }
@@ -53,7 +53,7 @@ export default Vue.extend({
                 { emulateJSON: false, headers: { 'Authorization': this.getTokenHeader } })
                 .then(function (response) {
                     this.sending = false
-                    this.data = response.data
+                    this.$router.go("/")
                 }, function (response) {
                     this.sending = false
                     if (response.status == 401) {
@@ -69,6 +69,14 @@ export default Vue.extend({
                         this.message = "Erreur " + response.status + ' : ' + JSON.stringify(response.data)
                     }
                 })
+        }
+    },
+    watch: {
+        'duration': function(old, newValue) {
+            var theValue:number = parseFloat(old)
+            console.log(old+" "+ newValue+" "+ theValue)
+            if (theValue < 1 || isNaN(theValue))
+                this.duration = 1
         }
     },
     components: {
