@@ -110,7 +110,7 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
-        $client->request('PUT', '/api/settings/stats', $data);
+        $client->request('PUT', '/api/user/settings/stats', $data);
 
         $this->assertTrue($client->getResponse()->isSuccessful()); 
         $this->assertNotEmpty($client->getResponse()->getContent());
@@ -136,7 +136,6 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
-       /*
 
         $client->request('PUT', '/api/settings/data', $data);
         $this->assertTrue($client->getResponse()->isSuccessful());
@@ -146,7 +145,7 @@ class DefaultControllerTest extends WebTestCase
             '/Users/grandiereantoine/Documents/test.png',
             'test.png',
             'image/png',
-            123
+            123);
      
 
         $client = static::createClient();
@@ -157,8 +156,6 @@ class DefaultControllerTest extends WebTestCase
 
         $client->request('PUT', '/api/user/settings/image', array('photo' => $photo));
         $this->assertTrue($client->getResponse()->isSuccessful());
-
-           ); */
         
 
         $client = static::createClient();
@@ -169,7 +166,7 @@ class DefaultControllerTest extends WebTestCase
 
         $client->enableProfiler();
 
-        $crawler = $client->request('GET', '/api/invitation');
+        $crawler = $client->request('POST', '/api/invitation');
 
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
 
@@ -190,7 +187,7 @@ class DefaultControllerTest extends WebTestCase
             array(),
             array('CONTENT_TYPE' => 'application/json'),
             '{
-    "name": "test test",
+    "name": "test ezrzerzer",
     "description": "Une description",
     "difficulty": "1",
     "duration": "5",
