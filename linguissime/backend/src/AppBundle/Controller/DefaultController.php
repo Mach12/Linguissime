@@ -149,7 +149,7 @@ class DefaultController extends Controller
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
 
         if ($listBadgeAchivement == null) {
-            return new JsonResponse("Aucun badge", 400);
+            return new JsonResponse([]);
         }
 
         $encoder = new JsonEncoder();
