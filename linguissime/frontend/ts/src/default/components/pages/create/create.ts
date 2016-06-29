@@ -74,7 +74,6 @@ export default Vue.extend({
     watch: {
         'duration': function(old, newValue) {
             var theValue:number = parseFloat(old)
-            console.log(old+" "+ newValue+" "+ theValue)
             if (theValue < 1 || isNaN(theValue))
                 this.duration = 1
         }
