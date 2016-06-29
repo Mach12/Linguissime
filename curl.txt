@@ -28,15 +28,12 @@ curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/l
 
 UPDATE STATS :
 
-curl -XPUT -H 'Authorization: Bearer token' 'localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/stats' -d name=verbes -d points=50
+curl -XPUT -H 'Authorization: Bearer token' 'localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/settings/stats' -d name=verbesxx -d points=500000000
 
 SHOW STATS :
 
 curl -XGET -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/user/stats'
 
-UPDATE DATA (points + badges + level) :
-
-curl -XPUT -H 'Authorization: Bearer token' 'http://localhost:8888/Linguissime/linguissime/backend/web/app_dev.php/api/settings/data' -d points=300
 
 UPDATE ACCOUNT *
 

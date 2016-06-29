@@ -250,6 +250,42 @@ class DefaultController extends Controller
     {       
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
+        $em = $this->getDoctrine()->getManager();
+
+        $listBadges = $em->getRepository('AppBundle:Badge')->findAll();
+        $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
+
+        $user->setLevel($user->getLevel() + 1);
+
+        $user->setPoints($user->getPoints() + $request->request->get('points'));
+
+        foreach ($listBadges as $badge)
+        {  
+            $found = false;
+
+            foreach ($listBadgeAchivement as $badgeAchievement) 
+            { 
+                if($badgeAchievement->getBadge() == $badge)
+                {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found)
+            {
+                if ($user->getPoints() >= $badge->getPoints())
+                {   
+                    $badgemanager = new BadgeManager();
+                    $badgemanager->setUser($user);
+                    $badgemanager->setBadge($badge);
+                    $badgemanager->setDate(new \DateTime());
+
+                    $em->persist($badgemanager);
+                }
+            }
+        }
+
         $exercise = new ExerciceDone();
 
         $exercise->setName($request->request->get('name'));
@@ -296,55 +332,6 @@ class DefaultController extends Controller
         $data = $serializer->serialize($exercices, 'json');
 
         return new Response($data);
-    }
-
-
-    /**
-     * @Route("/settings/data", name="update_data")
-     * @Method({"PUT"})
-     */
-    public function updateDataAction(Request $request)
-    {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user->setPoints($user->getPoints() + $request->request->get('points'));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $listBadges = $em->getRepository('AppBundle:Badge')->findAll();
-        $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
-
-        $user->setLevel($user->getLevel() + 1);
-
-        foreach ($listBadges as $badge)
-        {  
-            $found = false;
-
-            foreach ($listBadgeAchivement as $badgeAchievement) 
-            { 
-                if($badgeAchievement->getBadge() == $badge)
-                {
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found)
-            {
-                if ($user->getPoints() >= $badge->getPoints())
-                {   
-                    $badgemanager = new BadgeManager();
-                    $badgemanager->setUser($user);
-                    $badgemanager->setBadge($badge);
-                    $badgemanager->setDate(new \DateTime());
-
-                    $em->persist($badgemanager);
-                }
-            }
-        }
-
-        $em->flush();
-
-        return new JsonResponse("Your data have been updated with success !");
     }
 
     /**
