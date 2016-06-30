@@ -8,6 +8,7 @@
         </div>
 
         <div v-if="!loading">
+            <span v-show="badgeData.length == 0">Vous n'avez encore aucun badge...</span>
             <div class="col-md-3" v-for="badge in badgeData">
                 <div class="card text-xs-center">
                     <div class="card-block">

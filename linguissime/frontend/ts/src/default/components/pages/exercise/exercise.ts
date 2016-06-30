@@ -16,7 +16,8 @@ export default Vue.extend({
             currentQIndex: 0,
             score: 0,
             failedCurrentQuestion: false,
-            displayScore: false
+            displayScore: false,
+            showDumps: false
         }
     },
     computed: {
