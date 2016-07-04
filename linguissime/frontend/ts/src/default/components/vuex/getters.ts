@@ -6,3 +6,6 @@ export function isTokenValid(state) {
 export function getTokenHeader(state) {
     return 'Bearer ' + state.token
 }
+export function getSearchQuery(state) {
+    return state.searchQuery
+}

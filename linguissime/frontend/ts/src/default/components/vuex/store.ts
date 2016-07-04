@@ -3,7 +3,8 @@ var Vuex = require('vuex')
 
 const state = {
   serverURI: "api/web/app_dev.php",
-  token: ""
+  token: "",
+  searchQuery: ""
 }
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
   },
   INVALIDATE_TOKEN(state) {
     state.token = ""
+  },
+  SET_SEARCH_QUERY(state, query) {
+    state.searchQuery = query
   }
 }
 
