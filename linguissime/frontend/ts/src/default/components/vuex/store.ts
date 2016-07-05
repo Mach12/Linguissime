@@ -4,7 +4,8 @@ var Vuex = require('vuex')
 const state = {
   serverURI: "api/web/app_dev.php",
   token: "",
-  searchQuery: ""
+  searchQuery: "",
+  showSearch: false
 }
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
   },
   SET_SEARCH_QUERY(state, query) {
     state.searchQuery = query
+  },
+  SET_SEARCH_SHOW(state, value) {
+    state.showSearch = value
   }
 }
 

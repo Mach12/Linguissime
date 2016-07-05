@@ -1,5 +1,6 @@
 import connected        from './connected/connected'
 import disconnected     from './disconnected/disconnected'
+import searchBox        from './searchbox/searchbox'
 import {isTokenValid}   from '../vuex/getters'
 
 export default Vue.extend({
@@ -7,7 +8,8 @@ export default Vue.extend({
     name: "Navbar",
     components: {
         connected,
-        disconnected
+        disconnected,
+        searchBox
     },
     vuex: {
         getters: {
