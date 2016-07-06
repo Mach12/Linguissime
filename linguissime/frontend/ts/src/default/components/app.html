@@ -1,8 +1,10 @@
 <div class="app">
     <navbar></navbar>
-    <linklist v-show="false"></linklist>
-    <router-view></router-view>
-    <search></search>
+    <div class="container">
+        <linklist v-show="false"></linklist>
+        <router-view></router-view>
+        <search></search>
+    </div>
     <bottombar></bottombar>
 </div>
 <style type="less" src="@"></style>

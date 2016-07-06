@@ -1,0 +1,17 @@
+<article class="card">
+    <div class="card-block" @click="onClick">
+        <div class="media">
+            <span class="media-left" href="#">
+                    <img class="media-object" src="http://assets.toptal.io/uploads/blog/category/logo/80/twitter_bootstrap.png" height="100"/>
+                </span>
+            <div class="media-body">
+                <h4 class="media-heading">{{hitData.name}}</h4>
+                <ul>
+                    <li>Exercice <b>{{textDifficulty | lowercase}}</b>.</li>
+                    <li>Durée estimée: <b>{{hitData.duration}} minute(s)</b>.</li>
+                </ul>
+                {{hitData.description}}
+            </div>
+        </div>
+    </div>
+</article>
