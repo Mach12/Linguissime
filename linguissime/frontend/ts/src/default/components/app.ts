@@ -1,14 +1,36 @@
-declare function require(name:string);
+declare function require(name: string);
 var bootstrap = require('bootstrap');
+Vue.use(require('vue-resource'));
 
-import router from '../router.config';
-import navbar from './navbar/navbar';
+import store        from './vuex/store'
 
-var app = Vue.extend( {
+import router       from '../router.config';
+import navbar       from './navbar/navbar';
+import linklist     from './linklist/linklist';
+import search       from './search/search';
+import bottombar    from './bottombar/bottombar';
+
+var app = Vue.extend({
     template: "@", //Means that the HTML is located at ./app.html
+    name: "App",
+    data: function () {
+        return {
+        }
+    },
     components: {
-        navbar
-    }
+        navbar,
+        linklist,
+        bottombar,
+        search
+    },
+    computed: {
+    },
+    methods: {
+        toggleNavbar: function () {
+            this.showNavbar = !this.showNavbar;
+        }
+    },
+    store
 });
 
 //bootstrap the application using the router on the app component

@@ -5,12 +5,17 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
 
 /**
  * User
  *
  * @ORM\Table(name="user")
+ * @UniqueEntity(fields={"email","username"},groups={"register"})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @Algolia\Index(perEnvironment=false)
  */
 class User implements UserInterface
 {   
@@ -32,13 +37,14 @@ class User implements UserInterface
     /**
      * @var int
      *
-     * @ORM\Column(name="level", type="integer")
+     * @ORM\Column(name="level", type="integer", nullable=true)
      */
-    private $level;
+    private $level = 1;
 
     /**
      * @Assert\NotBlank(groups={"register"})
      * @ORM\Column(name="username", type="string", length=255)
+     * @Algolia\Attribute
      */
     private $username;
 
@@ -49,6 +55,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(name="name", type="string", length=255, nullable=true)
+     * @Algolia\Attribute
      */
     private $name;
 
@@ -75,7 +82,7 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(name="points", type="integer")
+     * @ORM\Column(name="points", type="integer", nullable=true)
      */
     private $points;
 
@@ -90,6 +97,33 @@ class User implements UserInterface
      * @Assert\File(groups={"change_image"})
      */
     private $image;
+
+    /**
+    * @ORM\OneToMany(targetEntity="Exercise", mappedBy="user", cascade={"persist"})
+    */
+    protected $exercise;
+
+    public function __construct()
+    {
+        $this->exercise = new ArrayCollection();
+        $this->points = 0;
+    }
+
+    public function addExercise(Exercise $exercise)
+    {   
+        $exercise->setUser($this);
+        $this->exercise->add($exercise);
+    }
+
+    public function removeExercise(Exercise $exercise)
+    {
+        $this->exercise->removeElement($exercise);
+    }
+
+    public function getExercise()
+    {
+        return $this->exercise;
+    }
 
     public function getImage()
     {
@@ -129,11 +163,6 @@ class User implements UserInterface
     public function getSalt() {}
 
     public function eraseCredentials() {}
-
-    function __construct() 
-    {
-        $this->points = 0;
-    }
 
     /**
      * Get id

@@ -1,11 +1,10 @@
 <div class="app">
     <navbar></navbar>
-    <h1>Hello <span class="world">linguissime</span></h1>
-    <ul>
-        <li><a href="#" v-link="{ name: 'one' }">Part One</a></li>
-        <li><a href="#" v-link="{ name: 'two'}">Part Two</a></li>
-    </ul>
-
-    <router-view></router-view>
+    <div class="container">
+        <linklist v-show="false"></linklist>
+        <router-view></router-view>
+        <search></search>
+    </div>
+    <bottombar></bottombar>
 </div>
 <style type="less" src="@"></style>

@@ -1,0 +1,21 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+                &#9776;
+            </button>
+        <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+            <a class="navbar-brand" v-link="{ path: '/' }">Linguissime</a>
+
+            <ul class="nav navbar-nav pull-xs-right">
+                <template v-if="!isTokenValid">
+                    <disconnected></disconnected>
+                </template>
+                <template v-else>
+                    <connected></connected>
+                </template>
+            </ul>
+
+            <search-box></search-box>
+        </div>
+    </div>
+</nav>

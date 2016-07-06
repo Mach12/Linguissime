@@ -8,11 +8,11 @@ var defaultJs = [
 ];
 
 var defaultCss = [
-    
+    "./public/stylesheets/bootstrap.css"
 ];
 
 module.exports = {
-    js : {
+    js: {
         default: defaultJs,
     },
     css: {
@@ -20,6 +20,6 @@ module.exports = {
     },
     //{ [target:string]: sources: string | string[] }
     assets: {
-        
+
     }
 };

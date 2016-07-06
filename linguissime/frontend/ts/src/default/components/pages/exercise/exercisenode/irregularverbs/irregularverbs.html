@@ -1,0 +1,15 @@
+<form @submit.prevent="onSubmit">
+    <table class="table table-inverse table-bordered">
+        <tr>
+            <th>Infinitif</th>
+            <th>Passé simple</th>
+            <th>Participe passé</th>
+        </tr>
+        <tr>
+            <td>{{questionData.infinitive}}</td>
+            <td><input type="text" v-model="SPInput" :style="'border-color: '+(showResults?(SPResultCache?'green':'red'):'')" /></td>
+            <td><input type="text" v-model="PPInput" :style="'border-color: '+(showResults?(PPResultCache?'green':'red'):'')" /></td>
+        </tr>
+    </table>
+    <br/><button type="submit"><i class="fa fa-check"></i> Confirmer</button>
+</form>

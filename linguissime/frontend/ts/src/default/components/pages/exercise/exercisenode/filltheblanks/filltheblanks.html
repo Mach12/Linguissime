@@ -1,0 +1,9 @@
+<h3>Complétez les espaces vides:</h3>
+<form @submit.prevent="onSubmit">
+    {{questionData.text[0]}}
+    <template v-for="i in inputs" track-by="$index">
+        <input type="text" :style="'border-color: '+(showResults?(answerCache[$index]?'green':'red'):'')+'; display: inline-block'" v-model="i"/>
+        {{questionData.text[$index+1]}}
+    </template>
+    <br/><button type="submit"><i class="fa fa-check"></i> Confirmer</button>
+</form>

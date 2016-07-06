@@ -1,0 +1,4 @@
+<u>Choisissez la bonne formulation</u>:<br/>
+<button v-for="option in shuffledOptions" id="option{{$index}}" class="button" style="margin-top: 10px; display: block" @click="checkWording(option, $index)">
+    {{option}}
+</button>

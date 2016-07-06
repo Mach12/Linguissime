@@ -24,6 +24,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use AppBundle\Entity\Exercise;
+use AppBundle\Entity\ExerciseType;
 
 class DefaultController extends Controller
 {
@@ -38,6 +40,79 @@ class DefaultController extends Controller
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('default/login.html.twig', array('last_username' => $lastUsername,'error' => $error));
+    }
+
+    /**
+     * @Route("/exercise/{slug}", name="show_exercise")
+     * @Method({"GET"})
+     */
+    public function GetExerciseAction(Request $request, $slug)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $exercise = $em->getRepository('AppBundle:Exercise')->findBySlug($slug);
+
+        if (!$exercise) {
+            return new JsonResponse("Exercise not found", 400);
+        }
+
+        $encoder = new JsonEncoder();
+        $normalizer = new ObjectNormalizer();
+        $normalizer->setIgnoredAttributes(array('user','id'));
+
+        $normalizer->setCircularReferenceHandler(function ($object) {
+          return $object;
+        });
+
+        $serializer = new Serializer(array($normalizer), array($encoder));
+        $data = $serializer->serialize($exercise, 'json');
+
+        return new Response($data);
+    }
+
+    /**
+     * @Route("/user/settings/exercise", name="create_exercise")
+     * @Method({"POST"})
+     */
+    public function ExerciseAction(Request $request)
+    {   
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+
+        $exercise = new Exercise();
+
+        $params = array();
+        $content = $request->getContent();
+
+        if (empty($content)) {
+            return new JsonResponse("Your data are empty", 400);
+        }
+
+        $params = json_decode($content);
+
+        $exercise->setName($params->name);
+
+        $validator = $this->get('validator');
+        $errors = $validator->validate($exercise);
+
+         if (count($errors) > 0) {
+            return new JsonResponse("the name is already taken", 400);
+         }
+
+
+        $slug = $this->get('app.slugger')->slugify($params->name);
+
+        $exercise->setSlug($slug);
+        $exercise->setDifficulty($params->difficulty);
+        $exercise->setDescription($params->description);
+        $exercise->setDuration($params->duration);
+        $exercise->setUser($user);
+
+        $exercise->setData($params);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($exercise);
+        $em->flush();
+
+        return new JsonResponse("Your exercise has been created successfully");
     }
 
     /**
@@ -74,7 +149,7 @@ class DefaultController extends Controller
         $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
 
         if ($listBadgeAchivement == null) {
-            return new JsonResponse("Aucun badge");
+            return new JsonResponse([]);
         }
 
         $encoder = new JsonEncoder();
@@ -96,26 +171,21 @@ class DefaultController extends Controller
      * @Method({"PUT"})
      */
     public function ChangePasswordAction(Request $request)
-    {
+    {   
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $password = new ChangePassword();
-       
-        $form = $this->createForm(ChangePasswordType::class, $password);
-        $form->handleRequest($request);
+        $tab = $request->request->get('change_password');
 
-        if ($form->isValid()) {
+        if (!$tab["newPassword"]) { 
+             return new JsonResponse("invalid data", 400);
+         } 
+              
+        $newPassword = $this->get('security.password_encoder')->encodePassword($user, $tab["newPassword"]);
+        $user->setPassword($newPassword);
 
-            $newPassword = $this->get('security.password_encoder')->encodePassword($user, $password->getNewPassword());
-            $user->setPassword($newPassword);
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
 
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            return new JsonResponse(array('success' => "Mot de passe changer avec succès"));
-        }
-
-        return new JsonResponse("Invalid Data", 400);
-
+        return new JsonResponse(array('success' => "Password change with success"));
     }
 
     /**
@@ -123,8 +193,12 @@ class DefaultController extends Controller
      * @Method({"PUT"})
      */
     public function ChangeAccountAction(Request $request)
-    {
+    {   
         $user =  $this->get('security.token_storage')->getToken()->getUser();
+
+
+        var_dump($request->request->get('change_account[description]'));
+        die();
        
         $form = $this->createForm(ChangeAccountType::class, $user);
         $form->handleRequest($request);
@@ -137,7 +211,7 @@ class DefaultController extends Controller
             return new JsonResponse("Your account has been updated successfully");
         }
 
-        return new JsonResponse("error", 400);
+        return new JsonResponse("invalid data", 400);
     }
 
     /**
@@ -169,13 +243,48 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/settings/stats", name="update_stats")
+     * @Route("/user/settings/stats", name="update_stats")
      * @Method({"PUT"})
      */
     public function updateStatsAction(Request $request)
     {       
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
+        $em = $this->getDoctrine()->getManager();
+
+        $listBadges = $em->getRepository('AppBundle:Badge')->findAll();
+        $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
+
+        $user->setLevel($user->getLevel() + 1);
+
+        $user->setPoints($user->getPoints() + $request->request->get('points'));
+
+        foreach ($listBadges as $badge)
+        {  
+            $found = false;
+
+            foreach ($listBadgeAchivement as $badgeAchievement) 
+            { 
+                if($badgeAchievement->getBadge() == $badge)
+                {
+                    $found = true;
+                    break;
+                }
+            }
+
+            if (!$found)
+            {
+                if ($user->getPoints() >= $badge->getPoints())
+                {   
+                    $badgemanager = new BadgeManager();
+                    $badgemanager->setUser($user);
+                    $badgemanager->setBadge($badge);
+                    $badgemanager->setDate(new \DateTime());
+
+                    $em->persist($badgemanager);
+                }
+            }
+        }
 
         $exercise = new ExerciceDone();
 
@@ -208,7 +317,7 @@ class DefaultController extends Controller
         $exercices = $repository->findByUser($user);
 
         if ($exercices == null) {
-            return new JsonResponse("Aucun exercice fait");
+            return new JsonResponse([]);
         }
 
         $encoder = new JsonEncoder();
@@ -223,55 +332,6 @@ class DefaultController extends Controller
         $data = $serializer->serialize($exercices, 'json');
 
         return new Response($data);
-    }
-
-
-    /**
-     * @Route("/settings/data", name="update_data")
-     * @Method({"PUT"})
-     */
-    public function updateDataAction(Request $request)
-    {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        $user->setPoints($user->getPoints() + $request->request->get('points'));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $listBadges = $em->getRepository('AppBundle:Badge')->findAll();
-        $listBadgeAchivement = $em->getRepository('AppBundle:BadgeManager')->findByUser($user);
-
-        $user->setLevel($user->getLevel() + 1);
-
-        foreach ($listBadges as $badge)
-        {  
-            $found = false;
-
-            foreach ($listBadgeAchivement as $badgeAchievement) 
-            { 
-                if($badgeAchievement->getBadge() == $badge)
-                {
-                    $found = true;
-                    break;
-                }
-            }
-
-            if (!$found)
-            {
-                if ($user->getPoints() >= $badge->getPoints())
-                {   
-                    $badgemanager = new BadgeManager();
-                    $badgemanager->setUser($user);
-                    $badgemanager->setBadge($badge);
-                    $badgemanager->setDate(new \DateTime());
-
-                    $em->persist($badgemanager);
-                }
-            }
-        }
-
-        $em->flush();
-
-        return new JsonResponse("Success");
     }
 
     /**
@@ -297,11 +357,12 @@ class DefaultController extends Controller
 
             $this->get('mailer')->send($message);  
 
-        return new JsonResponse("votre message a bien été envoyé");
+        return new JsonResponse("Your message has been sent");
     }
 
     public function registerAction(Request $request)
-    {  
+    {
+       // return new JsonResponse($request);
         $user = new User();
 
         $form = $this->createForm(RegisterType::class, $user);
@@ -318,28 +379,32 @@ class DefaultController extends Controller
 
             return new JsonResponse("Your account has been created with success");
         }
-        return new JsonResponse("Invalid data", 400);
+        return new JsonResponse("The data you have sent is not valid", 400);
+
+
     }
 
     /**
      * @Route("/invitation", name="invitation")
-     * @Method({"GET"})
+     * @Method({"POST"})
      */
-    public function invitationAction()
+    public function invitationAction(Request $request)
     {   
         $user =  $this->get('security.token_storage')->getToken()->getUser();
 
         $fullname = $user->getUserName() . " " . $user->getName();
 
+        $email = $request->request->get('email');
+
         $message = \Swift_Message::newInstance()
             ->setContentType('text/html')
             ->setSubject("Rejoindre Linguissime")
             ->setFrom("agrandiere@intechinfo.fr")
-            ->setTo("agrandiere@intechinfo.fr")
+            ->setTo($email)
             ->setBody("Bonjour, Vous avez reçu une invitation de la part de " . $fullname . " pour essayer Linguissime. Vous pouvez vous rendre sur www.linguissime.com");
 
             $this->get('mailer')->send($message);
 
-        return new JsonResponse("votre message a bien été envoyé");
+        return new JsonResponse("Your message has been sent");
     }
 }

@@ -1,0 +1,35 @@
+<div class="overlay container" :style="{display: (show?'block':'none')}">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <div class="card">
+                    <div class="card-header">Filtres</div>
+                    <div class="card-block">
+                        <h6 class="card-subtitle m-b-5 font-weight-bold">Difficulté</h6>
+                        <template v-for="item in difficultyScale">
+                            <input type="checkbox" v-model="difficultyOptions[$index]"/> {{item}}
+                            <br/>
+                        </template>
+                        <br>
+                        <h6 class="card-subtitle m-b-5 font-weight-bold">Durée <input type="checkbox" v-model="showDuration"/></h6>
+                        <span v-show="showDuration">
+                            Minimum: <input type="number" min="0" step="1" v-model="minTime"/>
+                            Maximum: <input type="number" min="0" step="1" v-model="maxTime"/>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card" v-show="searchHits.length === 0">
+                    <div class="card-block">
+                        Aucun résultat!
+                    </div>
+                </div>
+                <template v-for="hit in searchHits">
+                    <search-hit :hit-data="hit"></search-hit>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>

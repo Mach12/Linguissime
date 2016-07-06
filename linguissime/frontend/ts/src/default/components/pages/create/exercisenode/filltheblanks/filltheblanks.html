@@ -1,0 +1,7 @@
+<input type="text" v-model="questionData.text[0]" placeholder="Fragment de texte" /><br/>
+<template v-for="blank in questionData.blanks" track-by="$index">
+<input type="text" v-model="questionData.blanks[$index]" placeholder="Espace à remplir" style="margin-left:5px"/>
+<button @click="removeSegment($index)" v-show="questionData.blanks.length>1"><span class="fa fa-trash"></span></button><br/>
+<input type="text" v-model="questionData.text[$index+1]" placeholder="Fragment de texte"/><br/>
+</template>
+<button @click="addSegment"><span class="fa fa-plus"></span> Ajouter un espace</button>

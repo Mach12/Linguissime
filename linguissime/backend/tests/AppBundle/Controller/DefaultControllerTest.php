@@ -110,7 +110,7 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
-        $client->request('PUT', '/api/settings/stats', $data);
+        $client->request('PUT', '/api/user/settings/stats', $data);
 
         $this->assertTrue($client->getResponse()->isSuccessful()); 
         $this->assertNotEmpty($client->getResponse()->getContent());
@@ -136,6 +136,7 @@ class DefaultControllerTest extends WebTestCase
             'CONTENT_TYPE' => 'application/json'
         ]);
 
+
         $client->request('PUT', '/api/settings/data', $data);
         $this->assertTrue($client->getResponse()->isSuccessful());
         $this->assertNotEmpty($client->getResponse()->getContent());
@@ -144,8 +145,8 @@ class DefaultControllerTest extends WebTestCase
             '/Users/grandiereantoine/Documents/test.png',
             'test.png',
             'image/png',
-            123
-        );
+            123);
+     
 
         $client = static::createClient();
         $client->setServerParameters([
@@ -165,11 +166,71 @@ class DefaultControllerTest extends WebTestCase
 
         $client->enableProfiler();
 
-        $crawler = $client->request('GET', '/api/invitation');
+        $crawler = $client->request('POST', '/api/invitation');
 
         $mailCollector = $client->getProfile()->getCollector('swiftmailer');
 
         $this->assertEquals(1, $mailCollector->getMessageCount());
 
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
+
+
+
+        $client->request(
+            'POST',
+            '/api/user/settings/exercise',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{
+    "name": "test ezrzerzer",
+    "description": "Une description",
+    "difficulty": "1",
+    "duration": "5",
+    "exercises": [{
+        "type": 1,
+        "data": [{
+            "text": "Pomme",
+            "goodTranslation": "Apple",
+            "badTranslations": ["Orange", "iPhone", "Steve Jobs"]
+        }, {
+            "text": "Voiture",
+            "goodTranslation": "Car",
+            "badTranslations": ["Chrysler", "Cars"]
+        }]
+    }, {
+        "type": "2",
+        "data": [{
+            "text": ["Heavy is ", "-making ", "!!"],
+            "blanks": ["wish", "fairy"]
+        }, {
+            "text": ["a", "c"],
+            "blanks": ["b"]
+        }, {
+            "text": ["o shit", "here comes", "!"],
+            "blanks": ["waddup", "dat boi"]
+        }]
+    }, {
+        "type": "3",
+        "data": [{
+            "goodSentence": "Theyre here",
+            "badSentences": ["Their here", "There here", "Zair hear"]
+        }]
+    }]
+}'
+        );
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        $this->assertNotEmpty($client->getResponse()->getContent());
+
+        $client = static::createClient();
+        $client->setServerParameters([
+            'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
+            'CONTENT_TYPE' => 'application/json'
+        ]);
     }
 }

@@ -1,0 +1,7 @@
+<form class="form-inline pull-xs-left" style="margin-left:15px;" @submit.prevent="">
+    <div class="inner-addon right-addon">
+        <i v-show="showCancelButton" class="fa fa-times" aria-hidden="true" @click="cancelSearch" style="pointer-events:auto"></i>
+        <i v-else class="fa fa-search" aria-hidden="true"></i>
+        <input class="form-control" type="text" placeholder="Chercher un cours..." v-model="query">
+    </div>
+</form>
