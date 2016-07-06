@@ -59,7 +59,6 @@ class Exercise
 
     /**
     * @ORM\Column(name="data", type="json_array")
-    * @Algolia\Attribute
     */
     protected $data;
 
